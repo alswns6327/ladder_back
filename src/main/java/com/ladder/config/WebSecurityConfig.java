@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .requestMatchers("/login", "/refreshToken").permitAll()
+                .requestMatchers( "/account", "/login", "/refreshToken").permitAll()
 //                .requestMatchers("/mathSomeThing").hasRole("A")
                 .anyRequest().authenticated()
                 .and()

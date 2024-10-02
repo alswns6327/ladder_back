@@ -1,0 +1,13 @@
+package com.ladder.dto.common;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor(staticName = "of")
+public class ResultDto<D> {
+
+    private final String msg;
+    private final D data;
+}
