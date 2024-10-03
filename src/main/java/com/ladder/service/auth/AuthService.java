@@ -20,6 +20,6 @@ public class AuthService {
 
     public ResultDto<ResponseRegistDto> registAccount(RequestRegistDto requestRegistDto) {
         LadderAccount ladderAccount = authRepository.save(new LadderAccount(requestRegistDto.encryptPassword(bCryptPasswordEncoder)));
-        return ResultDto.of("success", new ResponseRegistDto());
+        return ResultDto.of("success", new ResponseRegistDto(ladderAccount.getLadderAccountId()));
     }
 }

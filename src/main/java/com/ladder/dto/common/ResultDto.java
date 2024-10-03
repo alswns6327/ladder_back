@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor(staticName = "of")
+@Getter
 public class ResultDto<D> {
 
     private final String msg;
