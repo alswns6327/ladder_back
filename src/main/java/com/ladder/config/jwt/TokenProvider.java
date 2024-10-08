@@ -29,27 +29,28 @@ public class TokenProvider {
     public final String ACCESS_TOKEN = "access_token";
     public final String REFRESH_TOKEN = "refresh_token";
 
-    public String generateToken(String adminId, Duration expiredAt){
+    public String generateToken(String ladderAccountId, String ladderAccountAuth, Duration expiredAt){
         Date now = new Date();
-        return makeToken(new Date(now.getTime() + expiredAt.toMillis()), adminId);
+        return makeToken(new Date(now.getTime() + expiredAt.toMillis()), ladderAccountId, ladderAccountAuth);
     }
 
-    private String makeToken(Date expiry, String adminId) {
+    private String makeToken(Date expiry, String ladderAccountId, String ladderAccountAuth) {
         Date now = new Date();
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer(jwtPropeties.getIssuer())
                 .setExpiration(expiry)
-                .setSubject(adminId)
-                .claim("id", adminId)
+                .setSubject(ladderAccountId)
+                .claim("id", ladderAccountId)
+                .claim("auth", ladderAccountAuth)
                 .signWith(SignatureAlgorithm.HS256, jwtPropeties.getSecretKey())
                 .compact();
     }
 
     public Authentication getAuthentication(String token){
         Claims claims = getClaims(token);
-        Set<SimpleGrantedAuthority> authorties = Collections.singleton(new SimpleGrantedAuthority("ADMIN"));
+        Set<SimpleGrantedAuthority> authorties = Collections.singleton(claims.get("auth", SimpleGrantedAuthority.class));
         return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(), "", authorties), token, authorties);
     }
 
@@ -64,7 +65,7 @@ public class TokenProvider {
         }
     }
 
-    public String getAdminId(String token) {
+    public String getLadderAccountId(String token) {
         Claims claims = getClaims(token);
         return claims.get("id", String.class);
     }

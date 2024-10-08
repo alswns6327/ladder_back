@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(jwt) && tokenProvider.validToken(jwt)){
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            request.setAttribute("adminId", tokenProvider.getAdminId(jwt));
+            request.setAttribute("ladderAccountId", tokenProvider.getLadderAccountId(jwt));
         }
 
         filterChain.doFilter(request, response);

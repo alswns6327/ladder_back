@@ -56,7 +56,7 @@ public class LadderAccount extends CommonColumns1 implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ADMIN"));
+        return List.of(() -> this.ladderAccountAuth);
     }
 
     @Override

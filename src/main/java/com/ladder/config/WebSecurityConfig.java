@@ -2,6 +2,7 @@ package com.ladder.config;
 
 import com.ladder.config.jwt.JwtFilter;
 import com.ladder.config.jwt.TokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,10 +40,12 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .requestMatchers( "/account", "/login", "/refreshToken").permitAll()
+                .requestMatchers( "/account", "/login", "/refreshToken", "/logout").permitAll()
 //                .requestMatchers("/mathSomeThing").hasRole("A")
                 .anyRequest().authenticated()
                 .and()
+                .logout().disable()
+                .formLogin().disable()
                 .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler)
                 .and()

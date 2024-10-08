@@ -6,9 +6,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class Common {
 
-    public static String getAdminId(){
+    public static String getLadderAccountId(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return String.valueOf(request.getAttribute("adminId"));
+        return String.valueOf(request.getAttribute("ladderAccountId"));
     }
 
 }

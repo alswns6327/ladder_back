@@ -31,21 +31,21 @@ public class CommonColumns1 {
 
     public void remove(){
         this.lastUpdateDt = LocalDateTime.now();
-        this.lastUpdateUser = Common.getAdminId();
+        this.lastUpdateUser = Common.getLadderAccountId();
         this.delYn = 0;
     }
 
     @PrePersist
     public void prePersist() {
         this.firstSaveDt = LocalDateTime.now();
-        this.firstSaveUser = Common.getAdminId();
+        this.firstSaveUser = Common.getLadderAccountId();
         this.delYn = 1;
     }
 
     @PreUpdate
     public void preUpdate(){
         this.lastUpdateDt = LocalDateTime.now();
-        this.lastUpdateUser = Common.getAdminId();
+        this.lastUpdateUser = Common.getLadderAccountId();
     }
 
 }
