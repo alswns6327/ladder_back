@@ -54,6 +54,11 @@ public class LadderAccount extends CommonColumns1 implements UserDetails {
         this.ladderAccountAuth = "USER";
     }
 
+    public LadderAccount(String ladderAccountId, String ladderAccountAuth){
+        this.ladderAccountId = ladderAccountId;
+        this.ladderAccountAuth = ladderAccountAuth;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> this.ladderAccountAuth);

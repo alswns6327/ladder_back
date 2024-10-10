@@ -1,6 +1,7 @@
 package com.ladder.config.jwt;
 
 
+import com.ladder.domain.auth.LadderAccount;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -50,8 +51,9 @@ public class TokenProvider {
 
     public Authentication getAuthentication(String token){
         Claims claims = getClaims(token);
-        Set<SimpleGrantedAuthority> authorties = Collections.singleton(claims.get("auth", SimpleGrantedAuthority.class));
-        return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(), "", authorties), token, authorties);
+        String auth = String.valueOf(claims.get("auth"));
+        Set<SimpleGrantedAuthority> authorties = Collections.singleton(new SimpleGrantedAuthority(auth));
+        return new UsernamePasswordAuthenticationToken(new LadderAccount(claims.getSubject(), auth), token, authorties);
     }
 
     public boolean validToken(String token){
