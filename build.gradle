@@ -29,6 +29,10 @@ dependencies {
     runtimeOnly('io.jsonwebtoken:jjwt-jackson:0.11.2')
 
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
+
+    implementation('commons-fileupload:commons-fileupload:1.4') // ftp
+    implementation('commons-net:commons-net:3.8.0')
+
 }
 
 test {

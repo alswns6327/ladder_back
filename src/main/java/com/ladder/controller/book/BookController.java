@@ -3,13 +3,12 @@ package com.ladder.controller.book;
 import com.ladder.dto.book.RequestBookInfoDto;
 import com.ladder.dto.book.ResponseBookInfoDto;
 import com.ladder.dto.common.ResultDto;
-import com.ladder.service.auth.BookService;
+import com.ladder.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
