@@ -1,6 +1,6 @@
 package com.ladder.domain.common;
 
-import com.ladder.util.Common;
+import com.ladder.util.CommonUtil;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -31,21 +31,21 @@ public class CommonColumns1 {
 
     public void remove(){
         this.lastUpdateDt = LocalDateTime.now();
-        this.lastUpdateUser = Common.getLadderAccountId();
+        this.lastUpdateUser = CommonUtil.getLadderAccountId();
         this.delYn = 0;
     }
 
     @PrePersist
     public void prePersist() {
         this.firstSaveDt = LocalDateTime.now();
-        this.firstSaveUser = Common.getLadderAccountId();
+        this.firstSaveUser = CommonUtil.getLadderAccountId();
         this.delYn = 1;
     }
 
     @PreUpdate
     public void preUpdate(){
         this.lastUpdateDt = LocalDateTime.now();
-        this.lastUpdateUser = Common.getLadderAccountId();
+        this.lastUpdateUser = CommonUtil.getLadderAccountId();
     }
 
 }

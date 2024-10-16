@@ -1,6 +1,7 @@
 package com.ladder.domain.book;
 
 import com.ladder.domain.common.CommonColumns1;
+import com.ladder.dto.book.RequestBookInfoDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,4 +32,10 @@ public class BookInfo extends CommonColumns1 {
     @Column(name = "BOOK_IMG_URL")
     private String bookImgUrl;
 
+
+    public BookInfo(RequestBookInfoDto bookInfoDto){
+        this.bookName = bookInfoDto.getBookName();
+        this.bookAuthorName = bookInfoDto.getBookAuthorName();
+        this.bookTransLatorName = bookInfoDto.getBookTranslatorName();
+    }
 }
