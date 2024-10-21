@@ -32,6 +32,9 @@ public class BookInfo extends CommonColumns1 {
     @Column(name = "BOOK_IMG_URL")
     private String bookImgUrl;
 
+    @Column(name = "BOOK_IMG_FILE_EXTENSION")
+    private String bookImgFileExtension;
+
 
     public BookInfo(RequestBookInfoDto bookInfoDto){
         this.bookName = bookInfoDto.getBookName();

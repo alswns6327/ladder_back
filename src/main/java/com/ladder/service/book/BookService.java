@@ -6,10 +6,12 @@ import com.ladder.dto.book.ResponseBookInfoDto;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.repository.book.BookInfoRepository;
 import com.ladder.util.FileUtil;
-import com.ladder.vo.file.FileResultVo;
+import com.ladder.vo.file.FileUploadResultVo;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,10 +25,13 @@ public class BookService {
 
     public ResultDto<ResponseBookInfoDto> bookInfoSave(RequestBookInfoDto bookInfoDto) {
         try{
-            FileResultVo fileResultVo = fileUtil.transferFile(bookInfoDto.getBookImgFile()); // 파일 저장
+            FileUploadResultVo fileUploadResultVo = fileUtil.transferFile(bookInfoDto.getBookImgFile()); // 파일 저장
             BookInfo bookInfo = new BookInfo(bookInfoDto);
-            if(fileResultVo.getResult() == 1){ // 파일 저장 성공시 파일 저장 경로 추가
-                bookInfo.setBookImgUrl(fileResultVo.getFilePath());
+            if(fileUploadResultVo.getResult() == 1){ // 파일 저장 성공시 파일 저장 경로 추가
+                String filePath = fileUploadResultVo.getFilePath();
+                String fileExtension = filePath.substring(filePath.lastIndexOf(".") + 1);
+                bookInfo.setBookImgUrl(filePath);
+                bookInfo.setBookImgFileExtension(fileExtension);
             }
 
             bookInfoRepository.save(bookInfo);
@@ -39,10 +44,17 @@ public class BookService {
 
     public ResultDto<List<ResponseBookInfoDto>> bookInfoListSearch() {
         try {
-            List<ResponseBookInfoDto> bookInfoList = bookInfoRepository.findAll()
-                    .stream().map(ResponseBookInfoDto::new).collect(Collectors.toList());
-            System.out.println(bookInfoList.size());
-            return ResultDto.of("success", bookInfoList);
+            FTPClient ftpClient = fileUtil.connectFTPClient();
+            if (!ftpClient.isConnected() || !ftpClient.isAvailable()) throw new IOException("ftp 연결 실패");
+
+            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findAll().stream().map(
+                                                                bookInfo -> new ResponseBookInfoDto(bookInfo, fileUtil.readImgFile(ftpClient, bookInfo.getBookImgUrl()))
+                                                            ).collect(Collectors.toList());
+            if (ftpClient.isConnected()) {
+                ftpClient.logout();
+                ftpClient.disconnect();
+            }
+            return ResultDto.of("success", responseBookInfoDtos);
         }catch (Exception e){
             return ResultDto.of("fail", new ArrayList<ResponseBookInfoDto>());
         }
