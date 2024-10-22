@@ -1,9 +1,13 @@
 package com.ladder.service.book;
 
+import com.ladder.domain.book.BookChapterInfo;
 import com.ladder.domain.book.BookInfo;
+import com.ladder.dto.book.RequestBookChapterContent;
 import com.ladder.dto.book.RequestBookInfoDto;
+import com.ladder.dto.book.ResponseBookChapterContentDto;
 import com.ladder.dto.book.ResponseBookInfoDto;
 import com.ladder.dto.common.ResultDto;
+import com.ladder.repository.book.BookChapterInfoRepository;
 import com.ladder.repository.book.BookInfoRepository;
 import com.ladder.util.FileUtil;
 import com.ladder.vo.file.FileUploadResultVo;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookInfoRepository bookInfoRepository;
+    private final BookChapterInfoRepository bookChapterInfoRepository;
     private final FileUtil fileUtil;
 
     public ResultDto<ResponseBookInfoDto> bookInfoSave(RequestBookInfoDto bookInfoDto) {
@@ -57,6 +62,18 @@ public class BookService {
             return ResultDto.of("success", responseBookInfoDtos);
         }catch (Exception e){
             return ResultDto.of("fail", new ArrayList<ResponseBookInfoDto>());
+        }
+    }
+
+    public ResultDto<ResponseBookChapterContentDto> bookChapterContentSave(RequestBookChapterContent requestBookChapterContent) {
+        try {
+            BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContent.getBookInfoId())
+                    .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다 bookInfoId : " + requestBookChapterContent.getBookInfoId()));
+            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.save(new BookChapterInfo(requestBookChapterContent, bookInfo));
+            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookChapterContentDto());
         }
     }
 }

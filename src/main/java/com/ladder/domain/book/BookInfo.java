@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +37,8 @@ public class BookInfo extends CommonColumns1 {
     @Column(name = "BOOK_IMG_FILE_EXTENSION")
     private String bookImgFileExtension;
 
+    @OneToMany(mappedBy = "bookInfo", fetch = FetchType.LAZY)
+    private List<BookChapterInfo> bookChapterInfo;
 
     public BookInfo(RequestBookInfoDto bookInfoDto){
         this.bookName = bookInfoDto.getBookName();

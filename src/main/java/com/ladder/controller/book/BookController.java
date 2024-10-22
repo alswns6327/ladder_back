@@ -1,16 +1,15 @@
 package com.ladder.controller.book;
 
+import com.ladder.dto.book.RequestBookChapterContent;
 import com.ladder.dto.book.RequestBookInfoDto;
+import com.ladder.dto.book.ResponseBookChapterContentDto;
 import com.ladder.dto.book.ResponseBookInfoDto;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +29,8 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.bookInfoListSearch());
     }
 
+    @PostMapping("/book/chapter/content")
+    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterContentSave(@RequestBody RequestBookChapterContent requestBookChapterContent){
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContent));
+    }
 }
