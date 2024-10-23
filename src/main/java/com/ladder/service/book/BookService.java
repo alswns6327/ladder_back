@@ -76,4 +76,30 @@ public class BookService {
             return ResultDto.of("fail", new ResponseBookChapterContentDto());
         }
     }
+
+    public ResultDto<List<ResponseBookChapterContentDto>> bookChapterListSearch(Long bookInfoId) {
+        try {
+            BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
+                    .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다. bookInfoId : " + bookInfoId));
+            List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfo(bookInfo).stream()
+                    .map(ResponseBookChapterContentDto::new).collect(Collectors.toList());
+
+            return ResultDto.of("success", responseBookChapterContentDtos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ArrayList<ResponseBookChapterContentDto>());
+        }
+    }
+
+    public ResultDto<ResponseBookChapterContentDto> bookChapterSearch(Long bookChapterInfoId) {
+        try {
+            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(bookChapterInfoId)
+                    .orElseThrow(() -> new IllegalArgumentException("챕터 정보를 찾을 수 없습니다. bookChapterId : " + bookChapterInfoId));
+
+            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+        }
+    }
 }

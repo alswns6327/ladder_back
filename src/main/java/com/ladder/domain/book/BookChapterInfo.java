@@ -27,7 +27,7 @@ public class BookChapterInfo extends CommonColumns1 {
     private BookInfo bookInfo;
 
     public BookChapterInfo(RequestBookChapterContent requestBookChapterContent, BookInfo bookInfo){
-        this.bookChapterInfoTitle = requestBookChapterContent.getBookChapterInfoContent();
+        this.bookChapterInfoTitle = requestBookChapterContent.getBookChapterInfoTitle();
         this.bookChapterInfoContent = requestBookChapterContent.getBookChapterInfoContent();
         this.bookInfo = bookInfo;
     }
