@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class RequestBookInfoDto {
 
+    private Long bookInfoId;
     private String bookName;
     private String bookAuthorName;
     private String bookTranslatorName;

@@ -10,6 +10,7 @@ import com.ladder.dto.common.ResultDto;
 import com.ladder.repository.book.BookChapterInfoRepository;
 import com.ladder.repository.book.BookInfoRepository;
 import com.ladder.util.FileUtil;
+import com.ladder.vo.file.FileReadResultVo;
 import com.ladder.vo.file.FileUploadResultVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.net.ftp.FTPClient;
@@ -65,6 +66,37 @@ public class BookService {
         }
     }
 
+    public ResultDto<ResponseBookInfoDto> searchBookInfo(Long bookInfoId) {
+        try {
+            BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
+                    .orElseThrow(() -> new IllegalArgumentException("책을 찾지 못하였음 : " + bookInfoId));
+            FileReadResultVo fileReadResultVo = fileUtil.readImgFile(bookInfo.getBookImgUrl());
+            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo, fileReadResultVo.getImgBase64()));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookInfoDto());
+        }
+    }
+
+    public ResultDto<ResponseBookInfoDto> updateBookInfo(RequestBookInfoDto bookInfoDto) {
+        try {
+            BookInfo bookInfo = bookInfoRepository.findById(bookInfoDto.getBookInfoId())
+                    .orElseThrow(() -> new IllegalArgumentException("책을 찾지 못하였음 : " + bookInfoDto.getBookInfoId()));
+            FileUploadResultVo fileUploadResultVo = fileUtil.transferFile(bookInfoDto.getBookImgFile()); // 파일 저장
+            if(fileUploadResultVo.getResult() == 1){ // 파일 저장 성공시 파일 저장 경로 추가
+                String filePath = fileUploadResultVo.getFilePath();
+                String fileExtension = filePath.substring(filePath.lastIndexOf(".") + 1);
+                bookInfo.setBookImgUrl(filePath);
+                bookInfo.setBookImgFileExtension(fileExtension);
+            }
+            bookInfo.updateAll(bookInfoDto);
+            bookInfoRepository.save(bookInfo);
+            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookInfoDto());
+        }
+    }
     public ResultDto<ResponseBookChapterContentDto> bookChapterContentSave(RequestBookChapterContent requestBookChapterContent) {
         try {
             BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContent.getBookInfoId())

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class ResponseBookInfoDto {
 
-    private Long id;
+    private Long bookInfoId;
     private String bookName;
     private String bookAuthorName;
     private String bookTranslatorName;
@@ -21,7 +21,7 @@ public class ResponseBookInfoDto {
     private String bookImgFileExtension;
 
     public ResponseBookInfoDto(BookInfo bookInfo){
-        this.id = bookInfo.getId();
+        this.bookInfoId = bookInfo.getId();
         this.bookName = bookInfo.getBookName();
         this.bookAuthorName = bookInfo.getBookAuthorName();
         this.bookTranslatorName = bookInfo.getBookTransLatorName();
@@ -30,7 +30,7 @@ public class ResponseBookInfoDto {
     }
 
     public ResponseBookInfoDto(BookInfo bookInfo, String bookImgFile){
-        this.id = bookInfo.getId();
+        this.bookInfoId = bookInfo.getId();
         this.bookName = bookInfo.getBookName();
         this.bookAuthorName = bookInfo.getBookAuthorName();
         this.bookTranslatorName = bookInfo.getBookTransLatorName();

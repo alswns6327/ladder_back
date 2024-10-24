@@ -45,4 +45,10 @@ public class BookInfo extends CommonColumns1 {
         this.bookAuthorName = bookInfoDto.getBookAuthorName();
         this.bookTransLatorName = bookInfoDto.getBookTranslatorName();
     }
+
+    public void updateAll(RequestBookInfoDto bookInfoDto) {
+        this.bookName = bookInfoDto.getBookName();
+        this.bookAuthorName = bookInfoDto.getBookAuthorName();
+        this.bookTransLatorName = bookInfoDto.getBookTranslatorName();
+    }
 }

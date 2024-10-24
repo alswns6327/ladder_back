@@ -29,6 +29,16 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.bookInfoListSearch());
     }
 
+    @GetMapping("/book/info/{bookInfoId}")
+    public ResponseEntity<ResultDto<ResponseBookInfoDto>> searchBookInfo(@PathVariable Long bookInfoId){
+        return ResponseEntity.ok().body(bookService.searchBookInfo(bookInfoId));
+    }
+
+    @PutMapping("/book/info")
+    public ResponseEntity<ResultDto<ResponseBookInfoDto>> updateBookInfo(@ModelAttribute RequestBookInfoDto bookInfoDto){
+        return ResponseEntity.ok().body(bookService.updateBookInfo(bookInfoDto));
+    }
+
     @PostMapping("/book/chapter/content")
     public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterContentSave(@RequestBody RequestBookChapterContent requestBookChapterContent){
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContent));

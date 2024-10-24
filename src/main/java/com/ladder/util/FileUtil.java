@@ -97,8 +97,10 @@ public class FileUtil {
             }
 
 
-            boolean success = ftpClient.retrieveFile(nasInfoProperties.getUrl() + imgPath, outputStream);
-            if(!success) fileReadResultVo = FileReadResultVo.of(-1, "파일을 읽지 못하였습니다.", null);
+            boolean success = ftpClient.retrieveFile(imgPath, outputStream);
+            if(!success) {
+                fileReadResultVo = FileReadResultVo.of(-1, "파일을 읽지 못하였습니다. code : " + ftpClient.getReplyCode() + " msg : " + ftpClient.getReplyString(), null);
+            }
             else{
                 byte[] imageBytes = outputStream.toByteArray();
                 String imageBase64 = Base64.getEncoder().encodeToString(imageBytes);
