@@ -53,7 +53,7 @@ public class BookService {
             FTPClient ftpClient = fileUtil.connectFTPClient();
             if (!ftpClient.isConnected() || !ftpClient.isAvailable()) throw new IOException("ftp 연결 실패");
 
-            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findAll().stream().map(
+            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findByDelYn(1).stream().map(
                                                                 bookInfo -> new ResponseBookInfoDto(bookInfo, fileUtil.readImgFile(ftpClient, bookInfo.getBookImgUrl()))
                                                             ).collect(Collectors.toList());
             if (ftpClient.isConnected()) {
@@ -97,6 +97,21 @@ public class BookService {
             return ResultDto.of("fail", new ResponseBookInfoDto());
         }
     }
+
+
+    public ResultDto<ResponseBookInfoDto> deleteBookInfo(Long bookInfoId) {
+        try {
+            BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 책 정보를 찾을 수 없습니다. bookInfoId : " + bookInfoId));
+            bookInfo.remove();
+            bookInfoRepository.save(bookInfo);
+            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookInfoDto());
+        }
+    }
+
     public ResultDto<ResponseBookChapterContentDto> bookChapterContentSave(RequestBookChapterContent requestBookChapterContent) {
         try {
             BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContent.getBookInfoId())
@@ -113,7 +128,7 @@ public class BookService {
         try {
             BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다. bookInfoId : " + bookInfoId));
-            List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfo(bookInfo).stream()
+            List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfoAndDelYn(bookInfo, 1).stream()
                     .map(ResponseBookChapterContentDto::new).collect(Collectors.toList());
 
             return ResultDto.of("success", responseBookChapterContentDtos);
@@ -130,6 +145,21 @@ public class BookService {
 
             return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e) {
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+        }
+    }
+
+    public ResultDto<ResponseBookChapterContentDto> deleteBookChapter(Long bookChapterInfoId) {
+        try {
+            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(bookChapterInfoId)
+                    .orElseThrow(() -> new IllegalArgumentException("챕터 정보를 찾을 수 없습니다. bookChapterId : " + bookChapterInfoId));
+
+            bookChapterInfo.remove();
+            bookChapterInfoRepository.save(bookChapterInfo);
+
+            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+        }catch (Exception e){
             e.printStackTrace();
             return ResultDto.of("fail", new ResponseBookChapterContentDto());
         }

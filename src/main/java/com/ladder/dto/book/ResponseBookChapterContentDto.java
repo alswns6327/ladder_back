@@ -15,11 +15,13 @@ public class ResponseBookChapterContentDto {
     private Long bookChapterInfoId;
     private String bookChapterInfoTitle;
     private String bookChapterInfoContent;
+    private String firstSaveUser;
 
     public ResponseBookChapterContentDto(BookChapterInfo bookChapterInfo) {
         this.bookInfoId = bookChapterInfo.getBookInfo().getId();
         this.bookChapterInfoId = bookChapterInfo.getId();
         this.bookChapterInfoTitle = bookChapterInfo.getBookChapterInfoTitle();
         this.bookChapterInfoContent = bookChapterInfo.getBookChapterInfoContent();
+        this.firstSaveUser = bookChapterInfo.getFirstSaveUser();
     }
 }

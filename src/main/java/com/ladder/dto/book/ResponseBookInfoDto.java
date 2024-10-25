@@ -19,6 +19,7 @@ public class ResponseBookInfoDto {
     private String bookImgFile;
     private String bookImgUrl;
     private String bookImgFileExtension;
+    private String firstSaveUser;
 
     public ResponseBookInfoDto(BookInfo bookInfo){
         this.bookInfoId = bookInfo.getId();
@@ -27,6 +28,7 @@ public class ResponseBookInfoDto {
         this.bookTranslatorName = bookInfo.getBookTransLatorName();
         this.bookImgUrl = bookInfo.getBookImgUrl();
         this.bookImgFileExtension = bookInfo.getBookImgFileExtension();
+        this.firstSaveUser = bookInfo.getFirstSaveUser();
     }
 
     public ResponseBookInfoDto(BookInfo bookInfo, String bookImgFile){
@@ -36,6 +38,7 @@ public class ResponseBookInfoDto {
         this.bookTranslatorName = bookInfo.getBookTransLatorName();
         this.bookImgUrl = bookInfo.getBookImgUrl();
         this.bookImgFileExtension = bookInfo.getBookImgFileExtension();
+        this.firstSaveUser = bookInfo.getFirstSaveUser();
         this.bookImgFile = bookImgFile;
     }
 }

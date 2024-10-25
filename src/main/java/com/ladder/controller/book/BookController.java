@@ -39,6 +39,11 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.updateBookInfo(bookInfoDto));
     }
 
+    @DeleteMapping("/book/info/{bookInfoId}")
+    public ResponseEntity<ResultDto<ResponseBookInfoDto>> deleteBookInfo(@PathVariable Long bookInfoId){
+        return ResponseEntity.ok().body(bookService.deleteBookInfo(bookInfoId));
+    }
+
     @PostMapping("/book/chapter/content")
     public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterContentSave(@RequestBody RequestBookChapterContent requestBookChapterContent){
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContent));
@@ -52,5 +57,10 @@ public class BookController {
     @GetMapping("/book/chapter/{bookChapterInfoId}")
     public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterSearch(@PathVariable Long bookChapterInfoId){
         return ResponseEntity.ok().body(bookService.bookChapterSearch(bookChapterInfoId));
+    }
+
+    @DeleteMapping("/book/chapter/{bookChapterInfoId}")
+    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> deleteBookChapter(@PathVariable Long bookChapterInfoId){
+        return ResponseEntity.ok().body(bookService.deleteBookChapter(bookChapterInfoId));
     }
 }
