@@ -31,4 +31,9 @@ public class BookChapterInfo extends CommonColumns1 {
         this.bookChapterInfoContent = requestBookChapterContent.getBookChapterInfoContent();
         this.bookInfo = bookInfo;
     }
+
+    public void updateAll(RequestBookChapterContent requestBookChapterContent) {
+        this.bookChapterInfoTitle = requestBookChapterContent.getBookChapterInfoTitle();
+        this.bookChapterInfoContent = requestBookChapterContent.getBookChapterInfoContent();
+    }
 }

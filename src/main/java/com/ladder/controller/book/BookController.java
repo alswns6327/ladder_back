@@ -49,6 +49,11 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContent));
     }
 
+    @PutMapping("/book/chapter/content")
+    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> updateBookContent(@RequestBody RequestBookChapterContent requestBookChapterContent){
+        return ResponseEntity.ok().body(bookService.updateBookContent(requestBookChapterContent));
+    }
+
     @GetMapping("/book/chapter/list")
     public ResponseEntity<ResultDto<List<ResponseBookChapterContentDto>>> bookChapterListSearch(@RequestParam Long bookInfoId){
         return ResponseEntity.ok().body(bookService.bookChapterListSearch(bookInfoId));

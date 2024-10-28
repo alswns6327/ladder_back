@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RequestBookChapterContent {
     private Long bookInfoId;
+    private Long bookChapterInfoId;
     private String bookChapterInfoTitle;
     private String bookChapterInfoContent;
 }
