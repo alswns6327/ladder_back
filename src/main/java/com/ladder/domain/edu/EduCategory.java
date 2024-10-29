@@ -24,6 +24,6 @@ public class EduCategory extends CommonColumns1 {
     @Column(name = "CATEGORY_NAME", nullable = false)
     private String categoryName;
 
-    @OneToMany(mappedBy = "articleCategory")
-    private List<EduSubCategory> articleSubCategories;
+    @OneToMany(mappedBy = "eduCategory")
+    private List<EduSubCategory> eduSubCategories;
 }
