@@ -23,6 +23,6 @@ public class ArticleSubCategory extends CommonColumns1 {
     @JoinColumn(name = "ARTICLE_CATEGORY_SEQ")
     private ArticleCategory articleCategory;
 
-    @Column(name = "CATEGORY_SUB_NAME", nullable = false)
-    private String categorySubName;
+    @Column(name = "SUB_CATEGORY_NAME", nullable = false)
+    private String subCategoryName;
 }

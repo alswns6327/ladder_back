@@ -2,7 +2,7 @@ package com.ladder.service.book;
 
 import com.ladder.domain.book.BookChapterInfo;
 import com.ladder.domain.book.BookInfo;
-import com.ladder.dto.book.RequestBookChapterContent;
+import com.ladder.dto.book.RequestBookChapterContentDto;
 import com.ladder.dto.book.RequestBookInfoDto;
 import com.ladder.dto.book.ResponseBookChapterContentDto;
 import com.ladder.dto.book.ResponseBookInfoDto;
@@ -113,11 +113,11 @@ public class BookService {
         }
     }
 
-    public ResultDto<ResponseBookChapterContentDto> bookChapterContentSave(RequestBookChapterContent requestBookChapterContent) {
+    public ResultDto<ResponseBookChapterContentDto> bookChapterContentSave(RequestBookChapterContentDto requestBookChapterContentDto) {
         try {
-            BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContent.getBookInfoId())
-                    .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다 bookInfoId : " + requestBookChapterContent.getBookInfoId()));
-            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.save(new BookChapterInfo(requestBookChapterContent, bookInfo));
+            BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContentDto.getBookInfoId())
+                    .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다 bookInfoId : " + requestBookChapterContentDto.getBookInfoId()));
+            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.save(new BookChapterInfo(requestBookChapterContentDto, bookInfo));
             return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();
@@ -125,13 +125,13 @@ public class BookService {
         }
     }
 
-    public ResultDto<ResponseBookChapterContentDto> updateBookContent(RequestBookChapterContent requestBookChapterContent){
+    public ResultDto<ResponseBookChapterContentDto> updateBookContent(RequestBookChapterContentDto requestBookChapterContentDto){
         try {
-            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(requestBookChapterContent.getBookChapterInfoId())
-                    .orElseThrow(() -> new IllegalArgumentException("챕터 정보가 없습니다. bookChapterInfoId : " + requestBookChapterContent.getBookChapterInfoContent()));
+            BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(requestBookChapterContentDto.getBookChapterInfoId())
+                    .orElseThrow(() -> new IllegalArgumentException("챕터 정보가 없습니다. bookChapterInfoId : " + requestBookChapterContentDto.getBookChapterInfoContent()));
             if(!bookChapterInfo.getFirstSaveUser().equals(CommonUtil.getLadderAccountId())) return ResultDto.of("fail 작성자가 아닙니다.", new ResponseBookChapterContentDto());
 
-            bookChapterInfo.updateAll(requestBookChapterContent);
+            bookChapterInfo.updateAll(requestBookChapterContentDto);
             bookChapterInfoRepository.save(bookChapterInfo);
             return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){

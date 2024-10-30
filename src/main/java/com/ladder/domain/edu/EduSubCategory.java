@@ -23,6 +23,6 @@ public class EduSubCategory extends CommonColumns1 {
     @JoinColumn(name = "EDU_CATEGORY_SEQ")
     private EduCategory eduCategory;
 
-    @Column(name = "CATEGORY_SUB_NAME", nullable = false)
-    private String categorySubName;
+    @Column(name = "SUB_CATEGORY_NAME", nullable = false)
+    private String subCategoryName;
 }

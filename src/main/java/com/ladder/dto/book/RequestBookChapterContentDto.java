@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestBookChapterContent {
+public class RequestBookChapterContentDto {
     private Long bookInfoId;
     private Long bookChapterInfoId;
     private String bookChapterInfoTitle;

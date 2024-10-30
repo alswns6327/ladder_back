@@ -1,6 +1,6 @@
 package com.ladder.controller.book;
 
-import com.ladder.dto.book.RequestBookChapterContent;
+import com.ladder.dto.book.RequestBookChapterContentDto;
 import com.ladder.dto.book.RequestBookInfoDto;
 import com.ladder.dto.book.ResponseBookChapterContentDto;
 import com.ladder.dto.book.ResponseBookInfoDto;
@@ -45,13 +45,13 @@ public class BookController {
     }
 
     @PostMapping("/book/chapter/content")
-    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterContentSave(@RequestBody RequestBookChapterContent requestBookChapterContent){
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContent));
+    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> bookChapterContentSave(@RequestBody RequestBookChapterContentDto requestBookChapterContentDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.bookChapterContentSave(requestBookChapterContentDto));
     }
 
     @PutMapping("/book/chapter/content")
-    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> updateBookContent(@RequestBody RequestBookChapterContent requestBookChapterContent){
-        return ResponseEntity.ok().body(bookService.updateBookContent(requestBookChapterContent));
+    public ResponseEntity<ResultDto<ResponseBookChapterContentDto>> updateBookContent(@RequestBody RequestBookChapterContentDto requestBookChapterContentDto){
+        return ResponseEntity.ok().body(bookService.updateBookContent(requestBookChapterContentDto));
     }
 
     @GetMapping("/book/chapter/list")

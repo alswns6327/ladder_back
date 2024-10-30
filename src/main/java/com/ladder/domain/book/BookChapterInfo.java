@@ -1,7 +1,7 @@
 package com.ladder.domain.book;
 
 import com.ladder.domain.common.CommonColumns1;
-import com.ladder.dto.book.RequestBookChapterContent;
+import com.ladder.dto.book.RequestBookChapterContentDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,14 +26,14 @@ public class BookChapterInfo extends CommonColumns1 {
     @JoinColumn(name = "BOOK_INFO_SEQ")
     private BookInfo bookInfo;
 
-    public BookChapterInfo(RequestBookChapterContent requestBookChapterContent, BookInfo bookInfo){
-        this.bookChapterInfoTitle = requestBookChapterContent.getBookChapterInfoTitle();
-        this.bookChapterInfoContent = requestBookChapterContent.getBookChapterInfoContent();
+    public BookChapterInfo(RequestBookChapterContentDto requestBookChapterContentDto, BookInfo bookInfo){
+        this.bookChapterInfoTitle = requestBookChapterContentDto.getBookChapterInfoTitle();
+        this.bookChapterInfoContent = requestBookChapterContentDto.getBookChapterInfoContent();
         this.bookInfo = bookInfo;
     }
 
-    public void updateAll(RequestBookChapterContent requestBookChapterContent) {
-        this.bookChapterInfoTitle = requestBookChapterContent.getBookChapterInfoTitle();
-        this.bookChapterInfoContent = requestBookChapterContent.getBookChapterInfoContent();
+    public void updateAll(RequestBookChapterContentDto requestBookChapterContentDto) {
+        this.bookChapterInfoTitle = requestBookChapterContentDto.getBookChapterInfoTitle();
+        this.bookChapterInfoContent = requestBookChapterContentDto.getBookChapterInfoContent();
     }
 }
