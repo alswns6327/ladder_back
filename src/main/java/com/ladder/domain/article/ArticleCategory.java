@@ -1,6 +1,7 @@
 package com.ladder.domain.article;
 
 import com.ladder.domain.common.CommonColumns1;
+import com.ladder.dto.article.RequestArticleCategoryDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,4 +27,12 @@ public class ArticleCategory extends CommonColumns1 {
 
     @OneToMany(mappedBy = "articleCategory")
     private List<ArticleSubCategory> articleSubCategories;
+
+    public ArticleCategory(RequestArticleCategoryDto requestArticleCategoryDto){
+        this.categoryName = requestArticleCategoryDto.getCategoryName();
+    }
+
+    public void updateAll(RequestArticleCategoryDto requestArticleCategoryDto) {
+        this.categoryName = requestArticleCategoryDto.getCategoryName();
+    }
 }

@@ -23,4 +23,9 @@ public class ResponseArticleCategpryDto {
         this.categoryName = articleCategory.getCategoryName();
         this.subCategories = responseArticleSubCategoryDtos;
     }
+
+    public ResponseArticleCategpryDto(ArticleCategory articleCategory) {
+        this.categorySeq = articleCategory.getId();
+        this.categoryName = articleCategory.getCategoryName();
+    }
 }
