@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ArticleCategoryRepository extends JpaRepository<ArticleCategory, Long> {
 
-    List<ArticleCategory> findByDelYn(int delYn);
+    List<ArticleCategory> findByFirstSaveUserAndDelYn(String userId, int delYn);
 
 }

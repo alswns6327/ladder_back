@@ -24,10 +24,10 @@ public class ArticleService {
     private final ArticleCategoryRepository articleCategoryRepository;
     private final ArticleSubCategoryRepository articleSubCategoryRepository;
 
-    public ResultDto<List<ResponseArticleCategpryDto>> searchArticleCategoryList() {
+    public ResultDto<List<ResponseArticleCategpryDto>> searchArticleCategoryList(String userId) {
         try {
             List<ResponseArticleCategpryDto> responseArticleCategpryDtos =
-            articleCategoryRepository.findByDelYn(1).stream()
+            articleCategoryRepository.findByFirstSaveUserAndDelYn(userId, 1).stream()
                     .map((articleCategory -> { List<ResponseArticleSubCategoryDto> responseArticleSubCategoryDtos =
                             articleCategory.getArticleSubCategories().stream()
                                     .map(ResponseArticleSubCategoryDto::new)

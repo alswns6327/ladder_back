@@ -25,7 +25,7 @@ public class ArticleCategory extends CommonColumns1 {
     @Column(name = "CATEGORY_NAME", nullable = false)
     private String categoryName;
 
-    @OneToMany(mappedBy = "articleCategory")
+    @OneToMany(mappedBy = "articleCategory", fetch = FetchType.EAGER)
     private List<ArticleSubCategory> articleSubCategories;
 
     public ArticleCategory(RequestArticleCategoryDto requestArticleCategoryDto){

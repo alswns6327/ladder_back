@@ -20,8 +20,8 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("/article/category/list")
-    public ResponseEntity<ResultDto<List<ResponseArticleCategpryDto>>> searchArticleCategoryList(){
-        return ResponseEntity.ok().body(articleService.searchArticleCategoryList());
+    public ResponseEntity<ResultDto<List<ResponseArticleCategpryDto>>> searchArticleCategoryList(@RequestParam String userId){
+        return ResponseEntity.ok().body(articleService.searchArticleCategoryList(userId));
     }
 
     @PostMapping("/article/category")
