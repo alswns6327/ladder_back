@@ -1,11 +1,9 @@
 package com.ladder.service.article;
 
+import com.ladder.domain.article.Article;
 import com.ladder.domain.article.ArticleCategory;
 import com.ladder.domain.article.ArticleSubCategory;
-import com.ladder.dto.article.RequestArticleCategoryDto;
-import com.ladder.dto.article.RequestArticleSubCategoryDto;
-import com.ladder.dto.article.ResponseArticleCategpryDto;
-import com.ladder.dto.article.ResponseArticleSubCategoryDto;
+import com.ladder.dto.article.*;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.repository.article.ArticleCategoryRepository;
 import com.ladder.repository.article.ArticleRepository;
@@ -93,6 +91,49 @@ public class ArticleService {
         }catch (Exception e){
             e.printStackTrace();
             return ResultDto.of("fail", new ResponseArticleSubCategoryDto());
+        }
+    }
+
+    public ResultDto<ResponseArticleDto> saveArticle(RequestArticleDto requestArticleDto) {
+        try {
+            ArticleCategory articleCategory = articleCategoryRepository.findById(requestArticleDto.getCategorySeq())
+                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. : " + requestArticleDto.getCategorySeq()));
+            ArticleSubCategory articleSubCategory = articleCategory.getArticleSubCategories().stream()
+                    .filter(subCategory -> subCategory.getId() == requestArticleDto.getSubCategorySeq())
+                    .findFirst().orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다."));
+
+            Article article = new Article(requestArticleDto, articleCategory, articleSubCategory);
+
+            articleRepository.save(article);
+
+            return ResultDto.of("success", new ResponseArticleDto(article));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseArticleDto());
+        }
+    }
+
+    public ResultDto<List<ResponseArticleDto>> searchArticleList(String userId) {
+        try {
+            List<ResponseArticleDto> responseArticleDtos = articleRepository.findByFirstSaveUserAndDelYn(userId, 1).stream()
+                    .map(ResponseArticleDto::new).collect(Collectors.toList());
+
+            return ResultDto.of("success", responseArticleDtos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ArrayList<ResponseArticleDto>());
+        }
+    }
+
+    public ResultDto<ResponseArticleDto> searchArticle(Long articleSeq) {
+        try {
+            Article article = articleRepository.findById(articleSeq)
+                    .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : articleSeq : " + articleSeq));
+
+            return ResultDto.of("success", new ResponseArticleDto(article));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseArticleDto());
         }
     }
 }

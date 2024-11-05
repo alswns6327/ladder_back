@@ -1,9 +1,6 @@
 package com.ladder.controller.article;
 
-import com.ladder.dto.article.RequestArticleCategoryDto;
-import com.ladder.dto.article.RequestArticleSubCategoryDto;
-import com.ladder.dto.article.ResponseArticleCategpryDto;
-import com.ladder.dto.article.ResponseArticleSubCategoryDto;
+import com.ladder.dto.article.*;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.service.article.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +28,7 @@ public class ArticleController {
 
     @PutMapping("/article/category")
     public ResponseEntity<ResultDto<ResponseArticleCategpryDto>> updateArticleCategory(@RequestBody RequestArticleCategoryDto requestArticleCategoryDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.updateArticleCategory(requestArticleCategoryDto));
+        return ResponseEntity.ok().body(articleService.updateArticleCategory(requestArticleCategoryDto));
     }
 
     @PostMapping("/article/sub-category")
@@ -41,6 +38,21 @@ public class ArticleController {
 
     @PutMapping("/article/sub-category")
     public ResponseEntity<ResultDto<ResponseArticleSubCategoryDto>> updateArticleCategory(@RequestBody RequestArticleSubCategoryDto requestArticleSubCategoryDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.updateArticleSubCategory(requestArticleSubCategoryDto));
+        return ResponseEntity.ok().body(articleService.updateArticleSubCategory(requestArticleSubCategoryDto));
+    }
+
+    @PostMapping("/article")
+    public ResponseEntity<ResultDto<ResponseArticleDto>> saveArticle(@RequestBody RequestArticleDto requestArticleDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.saveArticle(requestArticleDto));
+    }
+
+    @GetMapping("/article")
+    public ResponseEntity<ResultDto<List<ResponseArticleDto>>> searchArticleList(@RequestParam String userId){
+        return ResponseEntity.ok().body(articleService.searchArticleList(userId));
+    }
+
+    @GetMapping("/article/{articleSeq}")
+    public ResponseEntity<ResultDto<ResponseArticleDto>> searchArticle(@PathVariable Long articleSeq){
+        return ResponseEntity.ok().body(articleService.searchArticle(articleSeq));
     }
 }
