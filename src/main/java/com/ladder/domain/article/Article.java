@@ -40,4 +40,11 @@ public class Article extends CommonColumns1 {
         this.articleCategory = articleCategory;
         this.articleSubCategory = articleSubCategory;
     }
+
+    public void updateAll(RequestArticleDto requestArticleDto, ArticleCategory articleCategory, ArticleSubCategory articleSubCategory) {
+        this.title = requestArticleDto.getTitle();
+        this.article = requestArticleDto.getArticle();
+        this.articleCategory = articleCategory;
+        this.articleSubCategory = articleSubCategory;
+    }
 }

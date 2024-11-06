@@ -31,6 +31,11 @@ public class ArticleController {
         return ResponseEntity.ok().body(articleService.updateArticleCategory(requestArticleCategoryDto));
     }
 
+    @DeleteMapping("/article/category/{categorySeq}")
+    public ResponseEntity<ResultDto<ResponseArticleCategpryDto>> deleteArticleCategory(@PathVariable Long categorySeq){
+        return ResponseEntity.ok().body(articleService.deleteArticleCategory(categorySeq));
+    }
+
     @PostMapping("/article/sub-category")
     public ResponseEntity<ResultDto<ResponseArticleSubCategoryDto>> saveArticleCategory(@RequestBody RequestArticleSubCategoryDto requestArticleSubCategoryDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(articleService.saveArticleSubCategory(requestArticleSubCategoryDto));
@@ -41,9 +46,19 @@ public class ArticleController {
         return ResponseEntity.ok().body(articleService.updateArticleSubCategory(requestArticleSubCategoryDto));
     }
 
+    @DeleteMapping("/article/sub-category/{categorySeq}")
+    public ResponseEntity<ResultDto<ResponseArticleSubCategoryDto>> updateArticleCategory(@PathVariable Long categorySeq){
+        return ResponseEntity.ok().body(articleService.deleteArticleSubCategory(categorySeq));
+    }
+
     @PostMapping("/article")
     public ResponseEntity<ResultDto<ResponseArticleDto>> saveArticle(@RequestBody RequestArticleDto requestArticleDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(articleService.saveArticle(requestArticleDto));
+    }
+
+    @PutMapping("/article")
+    public ResponseEntity<ResultDto<ResponseArticleDto>> updateArticle(@RequestBody RequestArticleDto requestArticleDto) {
+        return ResponseEntity.ok().body(articleService.updateArticle(requestArticleDto));
     }
 
     @GetMapping("/article")

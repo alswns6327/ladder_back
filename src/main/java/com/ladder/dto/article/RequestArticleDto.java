@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RequestArticleDto {
 
+    private Long articleSeq;
     private Long categorySeq;
     private Long subCategorySeq;
     private String title;
