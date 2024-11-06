@@ -1,5 +1,6 @@
 package com.ladder.service.article;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ladder.domain.article.Article;
 import com.ladder.domain.article.ArticleCategory;
 import com.ladder.domain.article.ArticleSubCategory;
@@ -8,9 +9,12 @@ import com.ladder.dto.common.ResultDto;
 import com.ladder.repository.article.ArticleCategoryRepository;
 import com.ladder.repository.article.ArticleRepository;
 import com.ladder.repository.article.ArticleSubCategoryRepository;
+import com.ladder.util.DecodeSearchParam;
+import com.ladder.vo.article.ArticleSearchParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -162,9 +166,25 @@ public class ArticleService {
         }
     }
 
-    public ResultDto<List<ResponseArticleDto>> searchArticleList(String userId) {
+    public ResultDto<List<ResponseArticleDto>> searchArticleList(String searchParam) {
         try {
-            List<ResponseArticleDto> responseArticleDtos = articleRepository.findByFirstSaveUserAndDelYn(userId, 1).stream()
+            ArticleSearchParam articleSearchParam = DecodeSearchParam.decodeSearchParam(searchParam, ArticleSearchParam.class);
+
+            List<Article> articles;
+            if(articleSearchParam.getCategorySeq() != null) {
+                ArticleCategory articleCategory = articleCategoryRepository.findById(articleSearchParam.getCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + articleSearchParam.getCategorySeq()));
+                articles = articleRepository.findByFirstSaveUserAndArticleCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleCategory, 1);
+            }else if(articleSearchParam.getSubCategorySeq() != null) {
+                ArticleSubCategory articleSubCategory = articleSubCategoryRepository.findById(articleSearchParam.getSubCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + articleSearchParam.getSubCategorySeq()));
+                articles = articleRepository.findByFirstSaveUserAndArticleSubCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleSubCategory, 1);
+            }else {
+                articles = articleRepository.findByFirstSaveUserAndDelYn(articleSearchParam.getLadderAccountId(), 1);
+            }
+
+
+            List<ResponseArticleDto> responseArticleDtos = articles.stream()
                     .map(ResponseArticleDto::new).collect(Collectors.toList());
 
             return ResultDto.of("success", responseArticleDtos);

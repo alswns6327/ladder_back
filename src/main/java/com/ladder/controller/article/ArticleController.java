@@ -62,8 +62,8 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public ResponseEntity<ResultDto<List<ResponseArticleDto>>> searchArticleList(@RequestParam String userId){
-        return ResponseEntity.ok().body(articleService.searchArticleList(userId));
+    public ResponseEntity<ResultDto<List<ResponseArticleDto>>> searchArticleList(@RequestParam String searchParam){
+        return ResponseEntity.ok().body(articleService.searchArticleList(searchParam));
     }
 
     @GetMapping("/article/{articleSeq}")

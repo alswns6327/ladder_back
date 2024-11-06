@@ -3,10 +3,7 @@ package com.ladder.service.auth;
 import com.ladder.config.jwt.TokenProvider;
 import com.ladder.domain.auth.LadderAccount;
 import com.ladder.domain.auth.RefreshToken;
-import com.ladder.dto.auth.RequestLoginDto;
-import com.ladder.dto.auth.RequestRegistDto;
-import com.ladder.dto.auth.ResponseLoginDto;
-import com.ladder.dto.auth.ResponseRegistDto;
+import com.ladder.dto.auth.*;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.repository.auth.AuthRepository;
 import com.ladder.repository.auth.RefreshTokenRepository;
@@ -18,6 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -75,6 +76,18 @@ public class AuthService {
             return ResultDto.of("logout success", "logout");
         }catch (Exception e){
             return ResultDto.of("logout fail", "logout");
+        }
+    }
+
+    public ResultDto<List<ResponseLadderAccountDto>> searchUsers() {
+        try {
+            List<ResponseLadderAccountDto> responseLadderAccountDtos = authRepository.findByDelYn(1).stream()
+                    .map(ResponseLadderAccountDto::new).collect(Collectors.toList());
+
+            return ResultDto.of("success", responseLadderAccountDtos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ArrayList<ResponseLadderAccountDto>());
         }
     }
 }
