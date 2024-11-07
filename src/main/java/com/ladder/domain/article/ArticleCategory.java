@@ -2,6 +2,7 @@ package com.ladder.domain.article;
 
 import com.ladder.domain.common.CommonColumns1;
 import com.ladder.dto.article.RequestArticleCategoryDto;
+import com.ladder.dto.edu.RequestEduCategoryDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,12 @@
 package com.ladder.domain.edu;
 
+import com.ladder.domain.article.ArticleCategory;
+import com.ladder.domain.article.ArticleSubCategory;
 import com.ladder.domain.common.CommonColumns1;
+import com.ladder.dto.article.RequestArticleCategoryDto;
+import com.ladder.dto.article.RequestArticleDto;
+import com.ladder.dto.edu.RequestEduCategoryDto;
+import com.ladder.dto.edu.RequestEduDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,4 +32,12 @@ public class EduCategory extends CommonColumns1 {
 
     @OneToMany(mappedBy = "eduCategory")
     private List<EduSubCategory> eduSubCategories;
+
+    public EduCategory(RequestEduCategoryDto requestEduCategoryDto){
+        this.categoryName = requestEduCategoryDto.getCategoryName();
+    }
+
+    public void updateAll(RequestEduCategoryDto requestEduCategoryDto) {
+        this.categoryName = requestEduCategoryDto.getCategoryName();
+    }
 }

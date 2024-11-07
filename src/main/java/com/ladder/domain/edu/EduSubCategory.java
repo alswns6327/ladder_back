@@ -1,6 +1,8 @@
 package com.ladder.domain.edu;
 
+import com.ladder.domain.edu.EduCategory;
 import com.ladder.domain.common.CommonColumns1;
+import com.ladder.dto.edu.RequestEduSubCategoryDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,4 +27,13 @@ public class EduSubCategory extends CommonColumns1 {
 
     @Column(name = "SUB_CATEGORY_NAME", nullable = false)
     private String subCategoryName;
+
+    public EduSubCategory(RequestEduSubCategoryDto requestEduSubCategoryDto, EduCategory EduCategory){
+        this.subCategoryName = requestEduSubCategoryDto.getSubCategoryName();
+        this.eduCategory = EduCategory;
+    }
+
+    public void updateAll(RequestEduSubCategoryDto requestEduSubCategoryDto) {
+        this.subCategoryName = requestEduSubCategoryDto.getSubCategoryName();
+    }
 }

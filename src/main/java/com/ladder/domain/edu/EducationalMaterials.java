@@ -1,6 +1,10 @@
 package com.ladder.domain.edu;
 
+import com.ladder.domain.article.ArticleCategory;
+import com.ladder.domain.article.ArticleSubCategory;
 import com.ladder.domain.common.CommonColumns1;
+import com.ladder.dto.article.RequestArticleDto;
+import com.ladder.dto.edu.RequestEduDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,4 +36,18 @@ public class EducationalMaterials extends CommonColumns1 {
 
     @Column(name = "CONTENT", nullable = false)
     private String content;
+    public EducationalMaterials (RequestEduDto requestEduDto, EduCategory eduCategory, EduSubCategory eduSubCategory){
+        this.title = requestEduDto.getTitle();
+        this.content = requestEduDto.getArticle();
+        this.eduCategory = eduCategory;
+        this.eduSubCategory = eduSubCategory;
+    }
+
+    public void updateAll(RequestEduDto requestEduDto, EduCategory eduCategory, EduSubCategory eduSubCategory) {
+        this.title = requestEduDto.getTitle();
+        this.content = requestEduDto.getArticle();
+        this.eduCategory = eduCategory;
+        this.eduSubCategory = eduSubCategory;
+    }
+
 }
