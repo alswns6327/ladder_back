@@ -38,14 +38,14 @@ public class EducationalMaterials extends CommonColumns1 {
     private String content;
     public EducationalMaterials (RequestEduDto requestEduDto, EduCategory eduCategory, EduSubCategory eduSubCategory){
         this.title = requestEduDto.getTitle();
-        this.content = requestEduDto.getArticle();
+        this.content = requestEduDto.getContent();
         this.eduCategory = eduCategory;
         this.eduSubCategory = eduSubCategory;
     }
 
     public void updateAll(RequestEduDto requestEduDto, EduCategory eduCategory, EduSubCategory eduSubCategory) {
         this.title = requestEduDto.getTitle();
-        this.content = requestEduDto.getArticle();
+        this.content = requestEduDto.getContent();
         this.eduCategory = eduCategory;
         this.eduSubCategory = eduSubCategory;
     }

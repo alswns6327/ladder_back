@@ -31,19 +31,19 @@ public class Article extends CommonColumns1 {
     @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @Column(name = "ARTICLE", nullable = false)
-    private String article;
+    @Column(name = "CONTENT", nullable = false)
+    private String content;
 
     public Article (RequestArticleDto requestArticleDto, ArticleCategory articleCategory, ArticleSubCategory articleSubCategory){
         this.title = requestArticleDto.getTitle();
-        this.article = requestArticleDto.getArticle();
+        this.content = requestArticleDto.getContent();
         this.articleCategory = articleCategory;
         this.articleSubCategory = articleSubCategory;
     }
 
     public void updateAll(RequestArticleDto requestArticleDto, ArticleCategory articleCategory, ArticleSubCategory articleSubCategory) {
         this.title = requestArticleDto.getTitle();
-        this.article = requestArticleDto.getArticle();
+        this.content = requestArticleDto.getContent();
         this.articleCategory = articleCategory;
         this.articleSubCategory = articleSubCategory;
     }

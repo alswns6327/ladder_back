@@ -15,5 +15,5 @@ public class RequestArticleDto {
     private Long categorySeq;
     private Long subCategorySeq;
     private String title;
-    private String article;
+    private String content;
 }

@@ -16,12 +16,12 @@ public class ResponseArticleDto {
     private Long categorySeq;
     private Long subCategorySeq;
     private String title;
-    private String article;
+    private String content;
     private String categoryName;
     private String subCategoryName;
     public ResponseArticleDto (Article article){
         this.title = article.getTitle();
-        this.article = article.getArticle();
+        this.content = article.getContent();
         this.articleSeq = article.getId();
         this.categorySeq = article.getArticleCategory().getId();
         this.subCategorySeq = article.getArticleSubCategory().getId();
