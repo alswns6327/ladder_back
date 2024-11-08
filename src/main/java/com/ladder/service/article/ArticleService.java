@@ -205,4 +205,18 @@ public class ArticleService {
             return ResultDto.of("fail", new ResponseArticleDto());
         }
     }
+
+    public ResultDto<ResponseArticleDto> deleteArticle(Long articleSeq) {
+        try {
+            Article article = articleRepository.findById(articleSeq)
+                    .orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다. articleSeq : " + articleSeq));
+
+            article.remove();
+            articleRepository.save(article);
+            return ResultDto.of("success", new ResponseArticleDto(article));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseArticleDto());
+        }
+    }
 }

@@ -210,4 +210,18 @@ public class EduService {
         }
     }
 
+    public ResultDto<ResponseEduDto> deleteEdu(Long eduSeq) {
+        try {
+            EducationalMaterials educationalMaterials = educationalMaterialsRepository.findById(eduSeq)
+                    .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : eduSeq : " + eduSeq));
+
+            educationalMaterials.remove();
+            educationalMaterialsRepository.save(educationalMaterials);
+
+            return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", new ResponseEduDto());
+        }
+    }
 }

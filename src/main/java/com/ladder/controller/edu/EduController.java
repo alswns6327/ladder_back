@@ -72,4 +72,8 @@ public class EduController {
         return ResponseEntity.ok().body(eduService.searchEdu(eduSeq));
     }
 
+    @DeleteMapping("/edu/{eduSeq}")
+    public ResponseEntity<ResultDto<ResponseEduDto>> deleteEdu(@PathVariable Long eduSeq){
+        return ResponseEntity.ok().body(eduService.deleteEdu(eduSeq));
+    }
 }

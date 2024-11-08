@@ -70,4 +70,9 @@ public class ArticleController {
     public ResponseEntity<ResultDto<ResponseArticleDto>> searchArticle(@PathVariable Long articleSeq){
         return ResponseEntity.ok().body(articleService.searchArticle(articleSeq));
     }
+
+    @DeleteMapping("/article/{articleSeq}")
+    public ResponseEntity<ResultDto<ResponseArticleDto>> deleteArticle(@PathVariable Long articleSeq){
+        return ResponseEntity.ok().body(articleService.deleteArticle(articleSeq));
+    }
 }
