@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class AuthService {
 
     private final AuthRepository authRepository;
@@ -56,7 +58,6 @@ public class AuthService {
 
                 refreshTokenRepository.save(newRefreshToken);
                 ladderAccount.setRefreshToken(newRefreshToken);
-                authRepository.save(ladderAccount);
                 CookieUtil.addCookie(response, tokenProvider.REFRESH_TOKEN, refreshToken, (int)tokenProvider.REFRESH_TOKEN_EXPIRED.toSeconds(), true);
 
                 return ResultDto.of("login success", new ResponseLoginDto(ladderAccount, accessToken));

@@ -16,6 +16,7 @@ import com.ladder.vo.file.FileUploadResultVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BookService {
 
     private final BookInfoRepository bookInfoRepository;
@@ -91,7 +93,6 @@ public class BookService {
                 bookInfo.setBookImgFileExtension(fileExtension);
             }
             bookInfo.updateAll(bookInfoDto);
-            bookInfoRepository.save(bookInfo);
             return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
         }catch (Exception e){
             e.printStackTrace();
@@ -105,7 +106,6 @@ public class BookService {
             BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 책 정보를 찾을 수 없습니다. bookInfoId : " + bookInfoId));
             bookInfo.remove();
-            bookInfoRepository.save(bookInfo);
             return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
         }catch (Exception e){
             e.printStackTrace();
@@ -132,7 +132,6 @@ public class BookService {
             if(!bookChapterInfo.getFirstSaveUser().equals(CommonUtil.getLadderAccountId())) return ResultDto.of("fail 작성자가 아닙니다.", new ResponseBookChapterContentDto());
 
             bookChapterInfo.updateAll(requestBookChapterContentDto);
-            bookChapterInfoRepository.save(bookChapterInfo);
             return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();
@@ -172,8 +171,6 @@ public class BookService {
                     .orElseThrow(() -> new IllegalArgumentException("챕터 정보를 찾을 수 없습니다. bookChapterId : " + bookChapterInfoId));
 
             bookChapterInfo.remove();
-            bookChapterInfoRepository.save(bookChapterInfo);
-
             return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();

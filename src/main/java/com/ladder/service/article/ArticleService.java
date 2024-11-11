@@ -13,6 +13,7 @@ import com.ladder.util.DecodeSearchParam;
 import com.ladder.vo.article.ArticleSearchParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleCategoryRepository articleCategoryRepository;
@@ -64,7 +66,6 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestArticleCategoryDto.getCategorySeq()));
 
             articleCategory.updateAll(requestArticleCategoryDto);
-            articleCategoryRepository.save(articleCategory);
             return ResultDto.of("success", new ResponseArticleCategpryDto(articleCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -79,7 +80,6 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + categorySeq));
 
             articleCategory.remove();
-            articleCategoryRepository.save(articleCategory);
             return ResultDto.of("success", new ResponseArticleCategpryDto(articleCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -106,7 +106,6 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleSubCategoryDto.getSubCategorySeq()));
 
             articleSubCategory.updateAll(requestArticleSubCategoryDto);
-            articleSubCategoryRepository.save(articleSubCategory);
             return ResultDto.of("success", new ResponseArticleSubCategoryDto(articleSubCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -120,7 +119,6 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + subCategorySeq));
 
             articleSubCategory.remove();
-            articleSubCategoryRepository.save(articleSubCategory);
             return ResultDto.of("success", new ResponseArticleSubCategoryDto(articleSubCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -160,9 +158,6 @@ public class ArticleService {
                             .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
 
             article.updateAll(requestArticleDto, articleCategory, articleSubCategory);
-
-            articleRepository.save(article);
-
             return ResultDto.of("success", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();
@@ -216,7 +211,6 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다. articleSeq : " + articleSeq));
 
             article.remove();
-            articleRepository.save(article);
             return ResultDto.of("success", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();

@@ -1,22 +1,18 @@
 package com.ladder.service.edu;
 
-import com.ladder.domain.article.Article;
-import com.ladder.domain.article.ArticleCategory;
-import com.ladder.domain.article.ArticleSubCategory;
 import com.ladder.domain.edu.EduCategory;
 import com.ladder.domain.edu.EduSubCategory;
 import com.ladder.domain.edu.EducationalMaterials;
-import com.ladder.dto.article.*;
 import com.ladder.dto.common.ResultDto;
 import com.ladder.dto.edu.*;
 import com.ladder.repository.edu.EduCategoryRepository;
 import com.ladder.repository.edu.EduSubCategoryRepository;
 import com.ladder.repository.edu.EducationalMaterialsRepository;
 import com.ladder.util.DecodeSearchParam;
-import com.ladder.vo.article.ArticleSearchParam;
 import com.ladder.vo.edu.EduSearchParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class EduService {
 
     private final EducationalMaterialsRepository educationalMaterialsRepository;
@@ -68,7 +65,6 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestEduCategoryDto.getCategorySeq()));
 
             eduCategory.updateAll(requestEduCategoryDto);
-            eduCategoryRepository.save(eduCategory);
             return ResultDto.of("success", new ResponseEduCategpryDto(eduCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -83,7 +79,6 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + categorySeq));
 
             eduCategory.remove();
-            eduCategoryRepository.save(eduCategory);
             return ResultDto.of("success", new ResponseEduCategpryDto(eduCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -110,7 +105,6 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduSubCategoryDto.getSubCategorySeq()));
 
             eduSubCategory.updateAll(requestEduSubCategoryDto);
-            eduSubCategoryRepository.save(eduSubCategory);
             return ResultDto.of("success", new ResponseEduSubCategoryDto(eduSubCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -124,7 +118,6 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + subCategorySeq));
 
             eduSubCategory.remove();
-            eduSubCategoryRepository.save(eduSubCategory);
             return ResultDto.of("success", new ResponseEduSubCategoryDto(eduSubCategory));
         }catch (Exception e){
             e.printStackTrace();
@@ -164,8 +157,6 @@ public class EduService {
                             .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduDto.getSubCategorySeq()));
 
             educationalMaterials.updateAll(requestEduDto, eduCategory, eduSubCategory);
-
-            educationalMaterialsRepository.save(educationalMaterials);
 
             return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
@@ -220,8 +211,6 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : eduSeq : " + eduSeq));
 
             educationalMaterials.remove();
-            educationalMaterialsRepository.save(educationalMaterials);
-
             return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
             e.printStackTrace();
