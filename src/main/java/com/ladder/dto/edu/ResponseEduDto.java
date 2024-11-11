@@ -1,6 +1,5 @@
 package com.ladder.dto.edu;
 
-import com.ladder.domain.article.Article;
 import com.ladder.domain.edu.EducationalMaterials;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,9 +23,9 @@ public class ResponseEduDto {
         this.title = educationalMaterials.getTitle();
         this.content = educationalMaterials.getContent();
         this.eduSeq = educationalMaterials.getId();
-        this.categorySeq = educationalMaterials.getEduCategory().getId();
-        this.subCategorySeq = educationalMaterials.getEduSubCategory().getId();
-        this.categoryName = educationalMaterials.getEduCategory().getCategoryName();
-        this.subCategoryName = educationalMaterials.getEduSubCategory().getSubCategoryName();
+        this.categorySeq = educationalMaterials.getEduCategory() == null ? null : educationalMaterials.getEduCategory().getId();
+        this.subCategorySeq = educationalMaterials.getEduSubCategory() == null ? null : educationalMaterials.getEduSubCategory().getId();
+        this.categoryName = educationalMaterials.getEduCategory() == null ? "전체" : educationalMaterials.getEduCategory().getCategoryName();
+        this.subCategoryName = educationalMaterials.getEduSubCategory() == null ? "전체" : educationalMaterials.getEduSubCategory().getSubCategoryName();
     }
 }

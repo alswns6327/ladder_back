@@ -23,9 +23,9 @@ public class ResponseArticleDto {
         this.title = article.getTitle();
         this.content = article.getContent();
         this.articleSeq = article.getId();
-        this.categorySeq = article.getArticleCategory().getId();
-        this.subCategorySeq = article.getArticleSubCategory().getId();
-        this.categoryName = article.getArticleCategory().getCategoryName();
-        this.subCategoryName = article.getArticleSubCategory().getSubCategoryName();
+        this.categorySeq = article.getArticleCategory() == null ? null : article.getArticleCategory().getId();
+        this.subCategorySeq = article.getArticleSubCategory() == null ? null : article.getArticleSubCategory().getId();
+        this.categoryName = article.getArticleCategory() == null ? "전체" : article.getArticleCategory().getCategoryName();
+        this.subCategoryName = article.getArticleSubCategory() == null ? "전체" : article.getArticleSubCategory().getSubCategoryName();
     }
 }

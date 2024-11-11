@@ -130,10 +130,12 @@ public class ArticleService {
 
     public ResultDto<ResponseArticleDto> saveArticle(RequestArticleDto requestArticleDto) {
         try {
-            ArticleCategory articleCategory = articleCategoryRepository.findById(requestArticleDto.getCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestArticleDto.getCategorySeq()));
-            ArticleSubCategory articleSubCategory = articleSubCategoryRepository.findById(requestArticleDto.getSubCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
+            ArticleCategory articleCategory =
+                    requestArticleDto.getCategorySeq() == null ? null : articleCategoryRepository.findById(requestArticleDto.getCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestArticleDto.getCategorySeq()));
+            ArticleSubCategory articleSubCategory =
+                    requestArticleDto.getSubCategorySeq() == null ? null : articleSubCategoryRepository.findById(requestArticleDto.getSubCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
 
             Article article = new Article(requestArticleDto, articleCategory, articleSubCategory);
 
@@ -150,10 +152,12 @@ public class ArticleService {
         try {
             Article article = articleRepository.findById(requestArticleDto.getArticleSeq())
                     .orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다.  articleSeq" + requestArticleDto.getArticleSeq()));
-            ArticleCategory articleCategory = articleCategoryRepository.findById(requestArticleDto.getCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestArticleDto.getCategorySeq()));
-            ArticleSubCategory articleSubCategory = articleSubCategoryRepository.findById(requestArticleDto.getSubCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
+            ArticleCategory articleCategory =
+                    requestArticleDto.getCategorySeq() == null ? null : articleCategoryRepository.findById(requestArticleDto.getCategorySeq())
+                            .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestArticleDto.getCategorySeq()));
+            ArticleSubCategory articleSubCategory =
+                    requestArticleDto.getSubCategorySeq() == null ? null : articleSubCategoryRepository.findById(requestArticleDto.getSubCategorySeq())
+                            .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
 
             article.updateAll(requestArticleDto, articleCategory, articleSubCategory);
 

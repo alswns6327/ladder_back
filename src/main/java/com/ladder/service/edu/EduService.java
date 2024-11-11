@@ -134,10 +134,12 @@ public class EduService {
 
     public ResultDto<ResponseEduDto> saveEdu(RequestEduDto requestEduDto) {
         try {
-            EduCategory eduCategory = eduCategoryRepository.findById(requestEduDto.getCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestEduDto.getCategorySeq()));
-            EduSubCategory eduSubCategory = eduSubCategoryRepository.findById(requestEduDto.getSubCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduDto.getSubCategorySeq()));
+            EduCategory eduCategory =
+                    requestEduDto.getCategorySeq() == null ? null : eduCategoryRepository.findById(requestEduDto.getCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestEduDto.getCategorySeq()));
+            EduSubCategory eduSubCategory =
+                    requestEduDto.getSubCategorySeq() == null ? null : eduSubCategoryRepository.findById(requestEduDto.getSubCategorySeq())
+                        .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduDto.getSubCategorySeq()));
 
             EducationalMaterials educationalMaterials = new EducationalMaterials(requestEduDto, eduCategory, eduSubCategory);
 
@@ -154,10 +156,12 @@ public class EduService {
         try {
             EducationalMaterials educationalMaterials = educationalMaterialsRepository.findById(requestEduDto.getEduSeq())
                     .orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다.  eduSeq" + requestEduDto.getEduSeq()));
-            EduCategory eduCategory = eduCategoryRepository.findById(requestEduDto.getCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestEduDto.getCategorySeq()));
-            EduSubCategory eduSubCategory = eduSubCategoryRepository.findById(requestEduDto.getSubCategorySeq())
-                    .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduDto.getSubCategorySeq()));
+            EduCategory eduCategory =
+                    requestEduDto.getCategorySeq() == null ? null : eduCategoryRepository.findById(requestEduDto.getCategorySeq())
+                            .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + requestEduDto.getCategorySeq()));
+            EduSubCategory eduSubCategory =
+                    requestEduDto.getSubCategorySeq() == null ? null : eduSubCategoryRepository.findById(requestEduDto.getSubCategorySeq())
+                            .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduDto.getSubCategorySeq()));
 
             educationalMaterials.updateAll(requestEduDto, eduCategory, eduSubCategory);
 
