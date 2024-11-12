@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("client")
 public class ClientInfoProperties {
     private String allowedOrigins;
+    private String domain;
 }
