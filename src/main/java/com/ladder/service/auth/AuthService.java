@@ -1,5 +1,6 @@
 package com.ladder.service.auth;
 
+import com.ladder.config.ClientInfoProperties;
 import com.ladder.config.jwt.TokenProvider;
 import com.ladder.domain.auth.LadderAccount;
 import com.ladder.domain.auth.RefreshToken;
@@ -30,6 +31,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenProvider tokenProvider;
+    private final ClientInfoProperties clientInfoProperties;
 
     public ResultDto<ResponseRegistDto> registAccount(RequestRegistDto requestRegistDto) {
         try{
@@ -52,19 +54,19 @@ public class AuthService {
                 String refreshToken = tokenProvider.generateToken(ladderAccountId, ladderAccountAuth, tokenProvider.REFRESH_TOKEN_EXPIRED);
 
                 long refreshTokenId = ladderAccount.getRefreshToken() == null ? -1 : ladderAccount.getRefreshToken().getId();
-                RefreshToken newRefreshToken = refreshTokenRepository.findById(refreshTokenId)
+                RefreshToken refreshTokenEntity = refreshTokenRepository.findById(refreshTokenId)
                         .map(entity -> entity.update(refreshToken))
                         .orElse(new RefreshToken(refreshToken));
 
-                refreshTokenRepository.save(newRefreshToken);
-                ladderAccount.setRefreshToken(newRefreshToken);
-                CookieUtil.addCookie(response, tokenProvider.REFRESH_TOKEN, refreshToken, (int)tokenProvider.REFRESH_TOKEN_EXPIRED.toSeconds(), true);
-
+                refreshTokenRepository.save(refreshTokenEntity);
+                ladderAccount.setRefreshToken(refreshTokenEntity);
+                CookieUtil.addCookie(response, tokenProvider.REFRESH_TOKEN, refreshToken, (int)tokenProvider.REFRESH_TOKEN_EXPIRED.toSeconds(), true, clientInfoProperties.getDomain());
                 return ResultDto.of("login success", new ResponseLoginDto(ladderAccount, accessToken));
             }else {
                 return ResultDto.of("login fail", new ResponseLoginDto());
             }
         }catch (Exception e){
+            e.printStackTrace();
             return ResultDto.of("login fail", new ResponseLoginDto());
         }
 
