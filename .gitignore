@@ -43,3 +43,4 @@ bin/
 
 ### Init ###
 *.yml
+**/src/main/resources/localhost*

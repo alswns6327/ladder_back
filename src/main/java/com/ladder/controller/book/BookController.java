@@ -25,8 +25,8 @@ public class BookController {
     }
 
     @GetMapping("/book/info/list")
-    public ResponseEntity<ResultDto<List<ResponseBookInfoDto>>> bookInfoListSearch () {
-        return ResponseEntity.ok().body(bookService.bookInfoListSearch());
+    public ResponseEntity<ResultDto<List<ResponseBookInfoDto>>> bookInfoListSearch (@RequestParam String ladderAccountId) {
+        return ResponseEntity.ok().body(bookService.bookInfoListSearch(ladderAccountId));
     }
 
     @GetMapping("/book/info/{bookInfoId}")

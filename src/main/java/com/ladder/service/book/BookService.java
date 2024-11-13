@@ -45,27 +45,27 @@ public class BookService {
 
             bookInfoRepository.save(bookInfo);
 
-            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
+            return ResultDto.of("success", "200", new ResponseBookInfoDto(bookInfo));
         }catch (Exception e){
-            return ResultDto.of("fail", new ResponseBookInfoDto());
+            return ResultDto.of("fail", "400", new ResponseBookInfoDto());
         }
     }
 
-    public ResultDto<List<ResponseBookInfoDto>> bookInfoListSearch() {
+    public ResultDto<List<ResponseBookInfoDto>> bookInfoListSearch(String ladderAccountId) {
         try {
             FTPClient ftpClient = fileUtil.connectFTPClient();
             if (!ftpClient.isConnected() || !ftpClient.isAvailable()) throw new IOException("ftp 연결 실패");
 
-            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findByDelYn(1).stream().map(
+            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findByFirstSaveUserAndDelYn(ladderAccountId, 1).stream().map(
                                                                 bookInfo -> new ResponseBookInfoDto(bookInfo, fileUtil.readImgFile(ftpClient, bookInfo.getBookImgUrl()))
                                                             ).collect(Collectors.toList());
             if (ftpClient.isConnected()) {
                 ftpClient.logout();
                 ftpClient.disconnect();
             }
-            return ResultDto.of("success", responseBookInfoDtos);
+            return ResultDto.of("success", "200", responseBookInfoDtos);
         }catch (Exception e){
-            return ResultDto.of("fail", new ArrayList<ResponseBookInfoDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseBookInfoDto>());
         }
     }
 
@@ -74,10 +74,10 @@ public class BookService {
             BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("책을 찾지 못하였음 : " + bookInfoId));
             FileReadResultVo fileReadResultVo = fileUtil.readImgFile(bookInfo.getBookImgUrl());
-            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo, fileReadResultVo.getImgBase64()));
+            return ResultDto.of("success", "200", new ResponseBookInfoDto(bookInfo, fileReadResultVo.getImgBase64()));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookInfoDto());
+            return ResultDto.of("fail", "400", new ResponseBookInfoDto());
         }
     }
 
@@ -93,10 +93,10 @@ public class BookService {
                 bookInfo.setBookImgFileExtension(fileExtension);
             }
             bookInfo.updateAll(bookInfoDto);
-            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
+            return ResultDto.of("success", "200", new ResponseBookInfoDto(bookInfo));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookInfoDto());
+            return ResultDto.of("fail", "400", new ResponseBookInfoDto());
         }
     }
 
@@ -106,10 +106,10 @@ public class BookService {
             BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 책 정보를 찾을 수 없습니다. bookInfoId : " + bookInfoId));
             bookInfo.remove();
-            return ResultDto.of("success", new ResponseBookInfoDto(bookInfo));
+            return ResultDto.of("success", "200", new ResponseBookInfoDto(bookInfo));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookInfoDto());
+            return ResultDto.of("fail", "400", new ResponseBookInfoDto());
         }
     }
 
@@ -118,10 +118,10 @@ public class BookService {
             BookInfo bookInfo = bookInfoRepository.findById(requestBookChapterContentDto.getBookInfoId())
                     .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다 bookInfoId : " + requestBookChapterContentDto.getBookInfoId()));
             BookChapterInfo bookChapterInfo = bookChapterInfoRepository.save(new BookChapterInfo(requestBookChapterContentDto, bookInfo));
-            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+            return ResultDto.of("success", "200", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+            return ResultDto.of("fail", "400", new ResponseBookChapterContentDto());
         }
     }
 
@@ -129,13 +129,13 @@ public class BookService {
         try {
             BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(requestBookChapterContentDto.getBookChapterInfoId())
                     .orElseThrow(() -> new IllegalArgumentException("챕터 정보가 없습니다. bookChapterInfoId : " + requestBookChapterContentDto.getBookChapterInfoContent()));
-            if(!bookChapterInfo.getFirstSaveUser().equals(CommonUtil.getLadderAccountId())) return ResultDto.of("fail 작성자가 아닙니다.", new ResponseBookChapterContentDto());
+            if(!bookChapterInfo.getFirstSaveUser().equals(CommonUtil.getLadderAccountId())) return ResultDto.of("fail", "400", new ResponseBookChapterContentDto());
 
             bookChapterInfo.updateAll(requestBookChapterContentDto);
-            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+            return ResultDto.of("success", "200", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+            return ResultDto.of("fail", "400", new ResponseBookChapterContentDto());
         }
     }
 
@@ -146,10 +146,10 @@ public class BookService {
             List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfoAndDelYn(bookInfo, 1).stream()
                     .map(ResponseBookChapterContentDto::new).collect(Collectors.toList());
 
-            return ResultDto.of("success", responseBookChapterContentDtos);
+            return ResultDto.of("success", "200", responseBookChapterContentDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseBookChapterContentDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseBookChapterContentDto>());
         }
     }
 
@@ -158,10 +158,10 @@ public class BookService {
             BookChapterInfo bookChapterInfo = bookChapterInfoRepository.findById(bookChapterInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("챕터 정보를 찾을 수 없습니다. bookChapterId : " + bookChapterInfoId));
 
-            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+            return ResultDto.of("success", "200", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e) {
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+            return ResultDto.of("fail", "400", new ResponseBookChapterContentDto());
         }
     }
 
@@ -171,10 +171,10 @@ public class BookService {
                     .orElseThrow(() -> new IllegalArgumentException("챕터 정보를 찾을 수 없습니다. bookChapterId : " + bookChapterInfoId));
 
             bookChapterInfo.remove();
-            return ResultDto.of("success", new ResponseBookChapterContentDto(bookChapterInfo));
+            return ResultDto.of("success", "200", new ResponseBookChapterContentDto(bookChapterInfo));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseBookChapterContentDto());
+            return ResultDto.of("fail", "400", new ResponseBookChapterContentDto());
         }
     }
 }

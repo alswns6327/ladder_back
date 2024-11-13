@@ -41,10 +41,10 @@ public class ArticleService {
                     }))
                     .collect(Collectors.toList());
 
-            return ResultDto.of("success", responseArticleCategpryDtos);
+            return ResultDto.of("success", "200", responseArticleCategpryDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseArticleCategpryDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseArticleCategpryDto>());
         }
     }
 
@@ -53,10 +53,10 @@ public class ArticleService {
             ArticleCategory articleCategory = new ArticleCategory(requestArticleCategoryDto);
             articleCategory = articleCategoryRepository.save(articleCategory);
 
-            return ResultDto.of("success", new ResponseArticleCategpryDto(articleCategory));
+            return ResultDto.of("success", "200", new ResponseArticleCategpryDto(articleCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleCategpryDto());
         }
     }
 
@@ -66,10 +66,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestArticleCategoryDto.getCategorySeq()));
 
             articleCategory.updateAll(requestArticleCategoryDto);
-            return ResultDto.of("success", new ResponseArticleCategpryDto(articleCategory));
+            return ResultDto.of("success", "200", new ResponseArticleCategpryDto(articleCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleCategpryDto());
         }
     }
 
@@ -80,10 +80,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + categorySeq));
 
             articleCategory.remove();
-            return ResultDto.of("success", new ResponseArticleCategpryDto(articleCategory));
+            return ResultDto.of("success", "200", new ResponseArticleCategpryDto(articleCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleCategpryDto());
         }
     }
 
@@ -93,10 +93,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestArticleSubCategoryDto.getCategorySeq()));
             ArticleSubCategory articleSubCategory = new ArticleSubCategory(requestArticleSubCategoryDto, articleCategory);
             articleSubCategory = articleSubCategoryRepository.save(articleSubCategory);
-            return ResultDto.of("success", new ResponseArticleSubCategoryDto(articleSubCategory));
+            return ResultDto.of("success", "200", new ResponseArticleSubCategoryDto(articleSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleSubCategoryDto());
         }
     }
 
@@ -106,10 +106,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleSubCategoryDto.getSubCategorySeq()));
 
             articleSubCategory.updateAll(requestArticleSubCategoryDto);
-            return ResultDto.of("success", new ResponseArticleSubCategoryDto(articleSubCategory));
+            return ResultDto.of("success", "200", new ResponseArticleSubCategoryDto(articleSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleSubCategoryDto());
         }
     }
 
@@ -119,10 +119,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + subCategorySeq));
 
             articleSubCategory.remove();
-            return ResultDto.of("success", new ResponseArticleSubCategoryDto(articleSubCategory));
+            return ResultDto.of("success", "200", new ResponseArticleSubCategoryDto(articleSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseArticleSubCategoryDto());
         }
     }
 
@@ -139,10 +139,10 @@ public class ArticleService {
 
             articleRepository.save(article);
 
-            return ResultDto.of("success", new ResponseArticleDto(article));
+            return ResultDto.of("success", "200", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleDto());
+            return ResultDto.of("fail", "400", new ResponseArticleDto());
         }
     }
 
@@ -158,10 +158,10 @@ public class ArticleService {
                             .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestArticleDto.getSubCategorySeq()));
 
             article.updateAll(requestArticleDto, articleCategory, articleSubCategory);
-            return ResultDto.of("success", new ResponseArticleDto(article));
+            return ResultDto.of("success", "200", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleDto());
+            return ResultDto.of("fail", "400", new ResponseArticleDto());
         }
     }
 
@@ -186,10 +186,10 @@ public class ArticleService {
             List<ResponseArticleDto> responseArticleDtos = articles.stream()
                     .map(ResponseArticleDto::new).collect(Collectors.toList());
 
-            return ResultDto.of("success", responseArticleDtos);
+            return ResultDto.of("success", "200", responseArticleDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseArticleDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseArticleDto>());
         }
     }
 
@@ -198,10 +198,10 @@ public class ArticleService {
             Article article = articleRepository.findById(articleSeq)
                     .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : articleSeq : " + articleSeq));
 
-            return ResultDto.of("success", new ResponseArticleDto(article));
+            return ResultDto.of("success", "200", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleDto());
+            return ResultDto.of("fail", "400", new ResponseArticleDto());
         }
     }
 
@@ -211,10 +211,10 @@ public class ArticleService {
                     .orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다. articleSeq : " + articleSeq));
 
             article.remove();
-            return ResultDto.of("success", new ResponseArticleDto(article));
+            return ResultDto.of("success", "200", new ResponseArticleDto(article));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseArticleDto());
+            return ResultDto.of("fail", "400", new ResponseArticleDto());
         }
     }
 }

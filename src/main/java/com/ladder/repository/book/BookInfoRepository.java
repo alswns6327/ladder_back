@@ -10,4 +10,5 @@ import java.util.List;
 public interface BookInfoRepository extends JpaRepository<BookInfo, Long> {
 
     List<BookInfo> findByDelYn (int delYn);
+    List<BookInfo> findByFirstSaveUserAndDelYn(String firstUserId, int delYn);
 }

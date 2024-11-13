@@ -1,6 +1,5 @@
 package com.ladder.service.auth;
 
-import com.ladder.config.ClientInfoProperties;
 import com.ladder.config.jwt.TokenProvider;
 import com.ladder.domain.auth.LadderAccount;
 import com.ladder.domain.auth.RefreshToken;
@@ -31,14 +30,13 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenProvider tokenProvider;
-    private final ClientInfoProperties clientInfoProperties;
 
     public ResultDto<ResponseRegistDto> registAccount(RequestRegistDto requestRegistDto) {
         try{
             LadderAccount ladderAccount = authRepository.save(new LadderAccount(requestRegistDto.encryptPassword(bCryptPasswordEncoder)));
-            return ResultDto.of("success", new ResponseRegistDto(ladderAccount.getLadderAccountId()));
+            return ResultDto.of("success", "200", new ResponseRegistDto(ladderAccount.getLadderAccountId()));
         }catch (Exception e){
-            return ResultDto.of("fail", new ResponseRegistDto());
+            return ResultDto.of("fail", "400", new ResponseRegistDto());
         }
     }
 
@@ -60,14 +58,14 @@ public class AuthService {
 
                 refreshTokenRepository.save(refreshTokenEntity);
                 ladderAccount.setRefreshToken(refreshTokenEntity);
-                CookieUtil.addCookie(response, tokenProvider.REFRESH_TOKEN, refreshToken, (int)tokenProvider.REFRESH_TOKEN_EXPIRED.toSeconds(), true, clientInfoProperties.getDomain());
-                return ResultDto.of("login success", new ResponseLoginDto(ladderAccount, accessToken));
+                CookieUtil.addCookie(response, tokenProvider.REFRESH_TOKEN, refreshToken, (int)tokenProvider.REFRESH_TOKEN_EXPIRED.toSeconds(), true);
+                return ResultDto.of("success", "200", new ResponseLoginDto(ladderAccount, accessToken));
             }else {
-                return ResultDto.of("login fail", new ResponseLoginDto());
+                return ResultDto.of("fail", "400", new ResponseLoginDto());
             }
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("login fail", new ResponseLoginDto());
+            return ResultDto.of("fail", "400", new ResponseLoginDto());
         }
 
     }
@@ -75,10 +73,10 @@ public class AuthService {
     public ResultDto<String> logout(HttpServletRequest request, HttpServletResponse response) {
         try {
             new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-            CookieUtil.deleteCookie(request, response, tokenProvider.ACCESS_TOKEN);
-            return ResultDto.of("logout success", "logout");
+            CookieUtil.deleteCookie(request, response, tokenProvider.REFRESH_TOKEN);
+            return ResultDto.of("success", "200", "logout");
         }catch (Exception e){
-            return ResultDto.of("logout fail", "logout");
+            return ResultDto.of("fail", "400", "logout");
         }
     }
 
@@ -87,10 +85,10 @@ public class AuthService {
             List<ResponseLadderAccountDto> responseLadderAccountDtos = authRepository.findByDelYn(1).stream()
                     .map(ResponseLadderAccountDto::new).collect(Collectors.toList());
 
-            return ResultDto.of("success", responseLadderAccountDtos);
+            return ResultDto.of("success", "200", responseLadderAccountDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseLadderAccountDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseLadderAccountDto>());
         }
     }
 }

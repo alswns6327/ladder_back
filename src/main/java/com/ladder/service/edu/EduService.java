@@ -40,10 +40,10 @@ public class EduService {
                             }))
                             .collect(Collectors.toList());
 
-            return ResultDto.of("success", responseEduCategpryDtos);
+            return ResultDto.of("success", "200", responseEduCategpryDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseEduCategpryDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseEduCategpryDto>());
         }
     }
 
@@ -52,10 +52,10 @@ public class EduService {
             EduCategory eduCategory = new EduCategory(requestEduCategoryDto);
             eduCategory = eduCategoryRepository.save(eduCategory);
 
-            return ResultDto.of("success", new ResponseEduCategpryDto(eduCategory));
+            return ResultDto.of("success", "200", new ResponseEduCategpryDto(eduCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseEduCategpryDto());
         }
     }
 
@@ -65,10 +65,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestEduCategoryDto.getCategorySeq()));
 
             eduCategory.updateAll(requestEduCategoryDto);
-            return ResultDto.of("success", new ResponseEduCategpryDto(eduCategory));
+            return ResultDto.of("success", "200", new ResponseEduCategpryDto(eduCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseEduCategpryDto());
         }
     }
 
@@ -79,10 +79,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + categorySeq));
 
             eduCategory.remove();
-            return ResultDto.of("success", new ResponseEduCategpryDto(eduCategory));
+            return ResultDto.of("success", "200", new ResponseEduCategpryDto(eduCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduCategpryDto());
+            return ResultDto.of("fail", "400", new ResponseEduCategpryDto());
         }
     }
 
@@ -92,10 +92,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq: " + requestEduSubCategoryDto.getCategorySeq()));
             EduSubCategory eduSubCategory = new EduSubCategory(requestEduSubCategoryDto, eduCategory);
             eduSubCategory = eduSubCategoryRepository.save(eduSubCategory);
-            return ResultDto.of("success", new ResponseEduSubCategoryDto(eduSubCategory));
+            return ResultDto.of("success", "200", new ResponseEduSubCategoryDto(eduSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseEduSubCategoryDto());
         }
     }
 
@@ -105,10 +105,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + requestEduSubCategoryDto.getSubCategorySeq()));
 
             eduSubCategory.updateAll(requestEduSubCategoryDto);
-            return ResultDto.of("success", new ResponseEduSubCategoryDto(eduSubCategory));
+            return ResultDto.of("success", "200", new ResponseEduSubCategoryDto(eduSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseEduSubCategoryDto());
         }
     }
 
@@ -118,10 +118,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + subCategorySeq));
 
             eduSubCategory.remove();
-            return ResultDto.of("success", new ResponseEduSubCategoryDto(eduSubCategory));
+            return ResultDto.of("success", "200", new ResponseEduSubCategoryDto(eduSubCategory));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduSubCategoryDto());
+            return ResultDto.of("fail", "400", new ResponseEduSubCategoryDto());
         }
     }
 
@@ -138,10 +138,10 @@ public class EduService {
 
             educationalMaterialsRepository.save(educationalMaterials);
 
-            return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
+            return ResultDto.of("success", "200", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduDto());
+            return ResultDto.of("fail", "400", new ResponseEduDto());
         }
     }
 
@@ -158,10 +158,10 @@ public class EduService {
 
             educationalMaterials.updateAll(requestEduDto, eduCategory, eduSubCategory);
 
-            return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
+            return ResultDto.of("success", "200", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduDto());
+            return ResultDto.of("fail", "400", new ResponseEduDto());
         }
     }
 
@@ -186,10 +186,10 @@ public class EduService {
             List<ResponseEduDto> responseEduDtos = edus.stream()
                     .map(ResponseEduDto::new).collect(Collectors.toList());
 
-            return ResultDto.of("success", responseEduDtos);
+            return ResultDto.of("success", "200", responseEduDtos);
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ArrayList<ResponseEduDto>());
+            return ResultDto.of("fail", "400", new ArrayList<ResponseEduDto>());
         }
     }
 
@@ -198,10 +198,10 @@ public class EduService {
             EducationalMaterials educationalMaterials = educationalMaterialsRepository.findById(eduSeq)
                     .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : eduSeq : " + eduSeq));
 
-            return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
+            return ResultDto.of("success", "200", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduDto());
+            return ResultDto.of("fail", "400", new ResponseEduDto());
         }
     }
 
@@ -211,10 +211,10 @@ public class EduService {
                     .orElseThrow(() -> new IllegalArgumentException("글 목록을 찾을 수 없습니다 : eduSeq : " + eduSeq));
 
             educationalMaterials.remove();
-            return ResultDto.of("success", new ResponseEduDto(educationalMaterials));
+            return ResultDto.of("success", "200", new ResponseEduDto(educationalMaterials));
         }catch (Exception e){
             e.printStackTrace();
-            return ResultDto.of("fail", new ResponseEduDto());
+            return ResultDto.of("fail", "400", new ResponseEduDto());
         }
     }
 }

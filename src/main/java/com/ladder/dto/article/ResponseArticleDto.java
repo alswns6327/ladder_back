@@ -19,6 +19,7 @@ public class ResponseArticleDto {
     private String content;
     private String categoryName;
     private String subCategoryName;
+    private String firstSaveUser;
     public ResponseArticleDto (Article article){
         this.title = article.getTitle();
         this.content = article.getContent();
@@ -27,5 +28,6 @@ public class ResponseArticleDto {
         this.subCategorySeq = article.getArticleSubCategory() == null ? null : article.getArticleSubCategory().getId();
         this.categoryName = article.getArticleCategory() == null ? "전체" : article.getArticleCategory().getCategoryName();
         this.subCategoryName = article.getArticleSubCategory() == null ? "전체" : article.getArticleSubCategory().getSubCategoryName();
+        this.firstSaveUser = article.getFirstSaveUser();
     }
 }

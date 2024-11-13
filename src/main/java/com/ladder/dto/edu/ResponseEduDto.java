@@ -19,6 +19,7 @@ public class ResponseEduDto {
     private String content;
     private String categoryName;
     private String subCategoryName;
+    private String firstSaveUser;
     public ResponseEduDto(EducationalMaterials educationalMaterials){
         this.title = educationalMaterials.getTitle();
         this.content = educationalMaterials.getContent();
@@ -27,5 +28,6 @@ public class ResponseEduDto {
         this.subCategorySeq = educationalMaterials.getEduSubCategory() == null ? null : educationalMaterials.getEduSubCategory().getId();
         this.categoryName = educationalMaterials.getEduCategory() == null ? "전체" : educationalMaterials.getEduCategory().getCategoryName();
         this.subCategoryName = educationalMaterials.getEduSubCategory() == null ? "전체" : educationalMaterials.getEduSubCategory().getSubCategoryName();
+        this.firstSaveUser = educationalMaterials.getFirstSaveUser();
     }
 }

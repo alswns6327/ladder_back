@@ -10,5 +10,6 @@ import lombok.Setter;
 public class ResultDto<D> {
 
     private final String msg;
+    private final String code;
     private final D data;
 }

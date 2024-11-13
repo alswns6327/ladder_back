@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -40,8 +41,123 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .requestMatchers( "/account", "/login", "/refreshToken", "/logout").permitAll()
+                .requestMatchers(
+                        "/account"
+                        , "/login"
+                        , "/refreshToken"
+                        , "/logout"
+                ).permitAll()
+                .requestMatchers(
+                        HttpMethod.GET
+                        , "/account/list"
+                        , "/book/info/list"
+                        , "/book/info/{bookInfoId:\\d+}"
+                        , "/book/chapter/list"
+                        , "/book/chapter/{bookChapterInfoId:\\d+}"
+                ).permitAll()
 //                .requestMatchers("/logout").hasAuthority("USER")
+                .requestMatchers(
+                        HttpMethod.GET
+                        , "/article/category/list"
+                        , "/article"
+                        , "/article/{articleSeq}"
+                ).permitAll()
+                .requestMatchers(
+                        HttpMethod.POST
+                        ,"/article/category"
+                        , "/article/category"
+                        , "/article/category/{categorySeq:\\d+}"
+                        , "/article/sub-category"
+                        , "/article/sub-category"
+                        , "/article/sub-category/{categorySeq:\\d+}"
+                        , "/article"
+                        , "/article"
+                        , "/article/{articleSeq:\\d+}"
+                        , "/book/info"
+                        , "/book/info"
+                        , "/book/info/{bookInfoId:\\d+}"
+                        , "/book/chapter/content"
+                        , "/book/chapter/content"
+                        , "/book/chapter/{bookChapterInfoId:\\d+}"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
+                .requestMatchers(
+                        HttpMethod.PUT
+                        ,"/article/category"
+                        , "/article/category"
+                        , "/article/category/{categorySeq:\\d+}"
+                        , "/article/sub-category"
+                        , "/article/sub-category"
+                        , "/article/sub-category/{categorySeq:\\d+}"
+                        , "/article"
+                        , "/article"
+                        , "/article/{articleSeq:\\d+}"
+                        , "/book/info"
+                        , "/book/info"
+                        , "/book/info/{bookInfoId:\\d+}"
+                        , "/book/chapter/content"
+                        , "/book/chapter/content"
+                        , "/book/chapter/{bookChapterInfoId:\\d+}"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
+                .requestMatchers(
+                        HttpMethod.DELETE
+                        ,"/article/category"
+                        , "/article/category"
+                        , "/article/category/{categorySeq:\\d+}"
+                        , "/article/sub-category"
+                        , "/article/sub-category"
+                        , "/article/sub-category/{categorySeq:\\d+}"
+                        , "/article"
+                        , "/article"
+                        , "/article/{articleSeq:\\d+}"
+                        , "/book/info"
+                        , "/book/info"
+                        , "/book/info/{bookInfoId:\\d+}"
+                        , "/book/chapter/content"
+                        , "/book/chapter/content"
+                        , "/book/chapter/{bookChapterInfoId:\\d+}"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
+                .requestMatchers(
+                        HttpMethod.GET
+                        , "/edu/category/list"
+                        , "/edu"
+                        , "/edu/{eduSeq:\\d+}"
+                ).hasAuthority("STUDENT")
+                .requestMatchers(
+                        HttpMethod.POST
+                        , "/edu/category"
+                        , "/edu/category"
+                        , "/edu/category/{categorySeq:\\d+}"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category/{categorySeq:\\d+}"
+                        , "/edu"
+                        , "/edu"
+                        , "/edu/{eduSeq:\\d+}"
+                ).hasAuthority("ADMIN")
+                .requestMatchers(
+                        HttpMethod.PUT
+                        , "/edu/category"
+                        , "/edu/category"
+                        , "/edu/category/{categorySeq:\\d+}"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category/{categorySeq:\\d+}"
+                        , "/edu"
+                        , "/edu"
+                        , "/edu/{eduSeq:\\d+}"
+                ).hasAuthority("ADMIN")
+                .requestMatchers(
+                        HttpMethod.DELETE
+                        , "/edu/category"
+                        , "/edu/category"
+                        , "/edu/category/{categorySeq:\\d+}"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category"
+                        , "/edu/sub-category/{categorySeq:\\d+}"
+                        , "/edu"
+                        , "/edu"
+                        , "/edu/{eduSeq:\\d+}"
+                ).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .logout().disable()
