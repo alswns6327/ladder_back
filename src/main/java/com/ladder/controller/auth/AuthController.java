@@ -33,6 +33,11 @@ public class AuthController {
         return ResponseEntity.ok().body(authService.idDuplicationCheck(userId));
     }
 
+    @DeleteMapping("/account/{userId}")
+    public ResponseEntity<ResultDto<String>> withdrawAccount(@PathVariable String userId) {
+        return ResponseEntity.ok().body(authService.withdrawAccount(userId));
+    }
+
     /**
      * 로그인
      * @param RequestLoginDto

@@ -42,7 +42,7 @@ public class AuthService {
 
     public ResultDto<Long> idDuplicationCheck(String userId) {
         try {
-            Long check = authRepository.countByLadderAccountId(userId);
+            Long check = authRepository.countByLadderAccountIdAndDelYn(userId, 1);
 
             return ResultDto.of("success", "200", check);
         }catch (Exception e){
@@ -52,7 +52,7 @@ public class AuthService {
 
     public ResultDto<ResponseLoginDto> login(RequestLoginDto requestLoginDto, HttpServletResponse response) {
         try{
-            LadderAccount ladderAccount = authRepository.findByLadderAccountId(requestLoginDto.getLadderAccountId())
+            LadderAccount ladderAccount = authRepository.findByLadderAccountIdAndDelYn(requestLoginDto.getLadderAccountId(), 1)
                     .orElseThrow(() -> new IllegalArgumentException("not found : " + requestLoginDto.getLadderAccountId()));
 
             if(bCryptPasswordEncoder.matches(requestLoginDto.getLadderAccountPassword(), ladderAccount.getLadderAccountPassword())){
@@ -99,6 +99,19 @@ public class AuthService {
         }catch (Exception e){
             e.printStackTrace();
             return ResultDto.of("fail", "400", new ArrayList<ResponseLadderAccountDto>());
+        }
+    }
+
+    public ResultDto<String> withdrawAccount(String userId) {
+        try {
+            LadderAccount ladderAccount = authRepository.findByLadderAccountId(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("아이디를 찾을 수 없습니다. ladderAccountId : " + userId));
+
+            ladderAccount.remove();
+            return ResultDto.of("success", "200", ladderAccount.getLadderAccountId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", "400", "");
         }
     }
 }

@@ -64,60 +64,6 @@ public class WebSecurityConfig {
                         , "/article/{articleSeq}"
                 ).permitAll()
                 .requestMatchers(
-                        HttpMethod.POST
-                        ,"/article/category"
-                        , "/article/category"
-                        , "/article/category/{categorySeq:\\d+}"
-                        , "/article/sub-category"
-                        , "/article/sub-category"
-                        , "/article/sub-category/{categorySeq:\\d+}"
-                        , "/article"
-                        , "/article"
-                        , "/article/{articleSeq:\\d+}"
-                        , "/book/info"
-                        , "/book/info"
-                        , "/book/info/{bookInfoId:\\d+}"
-                        , "/book/chapter/content"
-                        , "/book/chapter/content"
-                        , "/book/chapter/{bookChapterInfoId:\\d+}"
-                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
-                .requestMatchers(
-                        HttpMethod.PUT
-                        ,"/article/category"
-                        , "/article/category"
-                        , "/article/category/{categorySeq:\\d+}"
-                        , "/article/sub-category"
-                        , "/article/sub-category"
-                        , "/article/sub-category/{categorySeq:\\d+}"
-                        , "/article"
-                        , "/article"
-                        , "/article/{articleSeq:\\d+}"
-                        , "/book/info"
-                        , "/book/info"
-                        , "/book/info/{bookInfoId:\\d+}"
-                        , "/book/chapter/content"
-                        , "/book/chapter/content"
-                        , "/book/chapter/{bookChapterInfoId:\\d+}"
-                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
-                .requestMatchers(
-                        HttpMethod.DELETE
-                        ,"/article/category"
-                        , "/article/category"
-                        , "/article/category/{categorySeq:\\d+}"
-                        , "/article/sub-category"
-                        , "/article/sub-category"
-                        , "/article/sub-category/{categorySeq:\\d+}"
-                        , "/article"
-                        , "/article"
-                        , "/article/{articleSeq:\\d+}"
-                        , "/book/info"
-                        , "/book/info"
-                        , "/book/info/{bookInfoId:\\d+}"
-                        , "/book/chapter/content"
-                        , "/book/chapter/content"
-                        , "/book/chapter/{bookChapterInfoId:\\d+}"
-                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
-                .requestMatchers(
                         HttpMethod.GET
                         , "/edu/category/list"
                         , "/edu"
