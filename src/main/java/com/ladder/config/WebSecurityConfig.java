@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers(
                         "/account"
+                        , "/account/{userId:.*}"
                         , "/login"
                         , "/refreshToken"
                         , "/logout"

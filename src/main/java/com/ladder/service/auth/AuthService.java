@@ -40,6 +40,16 @@ public class AuthService {
         }
     }
 
+    public ResultDto<Long> idDuplicationCheck(String userId) {
+        try {
+            Long check = authRepository.countByLadderAccountId(userId);
+
+            return ResultDto.of("success", "200", check);
+        }catch (Exception e){
+            return ResultDto.of("fail", "400", -1L);
+        }
+    }
+
     public ResultDto<ResponseLoginDto> login(RequestLoginDto requestLoginDto, HttpServletResponse response) {
         try{
             LadderAccount ladderAccount = authRepository.findByLadderAccountId(requestLoginDto.getLadderAccountId())

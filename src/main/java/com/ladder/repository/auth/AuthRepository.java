@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<LadderAccount, Long> {
     Optional<LadderAccount> findByLadderAccountId(String ladderAccountId);
     List<LadderAccount> findByDelYn(int deyYn);
+    Long countByLadderAccountId(String userId);
 }

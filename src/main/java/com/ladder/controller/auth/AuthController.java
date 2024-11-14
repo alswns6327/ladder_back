@@ -28,6 +28,11 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registAccount(requestRegistDto));
     }
 
+    @GetMapping("/account/{userId}")
+    public ResponseEntity<ResultDto<Long>> idDuplicationCheck(@PathVariable String userId) {
+        return ResponseEntity.ok().body(authService.idDuplicationCheck(userId));
+    }
+
     /**
      * 로그인
      * @param RequestLoginDto
