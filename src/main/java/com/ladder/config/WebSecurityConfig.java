@@ -42,70 +42,29 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(
-                        "/account"
-                        , "/account/{userId:.*}"
-                        , "/login"
-                        , "/refreshToken"
-                        , "/logout"
-                ).permitAll()
-                .requestMatchers(
-                        HttpMethod.GET
-                        , "/account/list"
-                        , "/book/info/list"
-                        , "/book/info/{bookInfoId:\\d+}"
-                        , "/book/chapter/list"
-                        , "/book/chapter/{bookChapterInfoId:\\d+}"
-                ).permitAll()
-//                .requestMatchers("/logout").hasAuthority("USER")
-                .requestMatchers(
-                        HttpMethod.GET
-                        , "/article/category/list"
-                        , "/article"
-                        , "/article/{articleSeq}"
-                ).permitAll()
-                .requestMatchers(
-                        HttpMethod.GET
-                        , "/edu/category/list"
-                        , "/edu"
-                        , "/edu/{eduSeq:\\d+}"
-                ).hasAuthority("STUDENT")
-                .requestMatchers(
                         HttpMethod.POST
-                        , "/edu/category"
-                        , "/edu/category"
-                        , "/edu/category/{categorySeq:\\d+}"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category/{categorySeq:\\d+}"
-                        , "/edu"
-                        , "/edu"
-                        , "/edu/{eduSeq:\\d+}"
-                ).hasAuthority("ADMIN")
+                        , "/article/**"
+                        , "/article"
+                        , "/book/**"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
                 .requestMatchers(
                         HttpMethod.PUT
-                        , "/edu/category"
-                        , "/edu/category"
-                        , "/edu/category/{categorySeq:\\d+}"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category/{categorySeq:\\d+}"
-                        , "/edu"
-                        , "/edu"
-                        , "/edu/{eduSeq:\\d+}"
-                ).hasAuthority("ADMIN")
+                        , "/article/**"
+                        , "/article"
+                        , "/book/**"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
                 .requestMatchers(
                         HttpMethod.DELETE
-                        , "/edu/category"
-                        , "/edu/category"
-                        , "/edu/category/{categorySeq:\\d+}"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category"
-                        , "/edu/sub-category/{categorySeq:\\d+}"
+                        , "/article/**"
+                        , "/account/**"
+                        , "/book/**"
+                        , "/logout"
+                ).hasAnyAuthority("USER", "STUDENT", "ADMIN")
+                .requestMatchers(
+                        "/edu/**"
                         , "/edu"
-                        , "/edu"
-                        , "/edu/{eduSeq:\\d+}"
-                ).hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+                ).hasAnyAuthority("STUDENT", "ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .logout().disable()
                 .formLogin().disable()
