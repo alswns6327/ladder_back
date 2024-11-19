@@ -34,8 +34,8 @@ public class AuthController {
     }
 
     @DeleteMapping("/account/{userId}")
-    public ResponseEntity<ResultDto<String>> withdrawAccount(@PathVariable String userId) {
-        return ResponseEntity.ok().body(authService.withdrawAccount(userId));
+    public ResponseEntity<ResultDto<String>> withdrawAccount(@PathVariable String userId, HttpServletRequest request, HttpServletResponse response) {
+        return ResponseEntity.ok().body(authService.withdrawAccount(userId, request, response));
     }
 
     /**

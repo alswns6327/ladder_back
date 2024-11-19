@@ -50,6 +50,21 @@ public class AuthService {
         }
     }
 
+    public ResultDto<String> withdrawAccount(String userId, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            LadderAccount ladderAccount = authRepository.findByLadderAccountId(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("아이디를 찾을 수 없습니다. ladderAccountId : " + userId));
+
+            ladderAccount.remove();
+            new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+            CookieUtil.deleteCookie(request, response, tokenProvider.REFRESH_TOKEN);
+            return ResultDto.of("success", "200", ladderAccount.getLadderAccountId());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultDto.of("fail", "400", "");
+        }
+    }
+
     public ResultDto<ResponseLoginDto> login(RequestLoginDto requestLoginDto, HttpServletResponse response) {
         try{
             LadderAccount ladderAccount = authRepository.findByLadderAccountIdAndDelYn(requestLoginDto.getLadderAccountId(), 1)
@@ -99,19 +114,6 @@ public class AuthService {
         }catch (Exception e){
             e.printStackTrace();
             return ResultDto.of("fail", "400", new ArrayList<ResponseLadderAccountDto>());
-        }
-    }
-
-    public ResultDto<String> withdrawAccount(String userId) {
-        try {
-            LadderAccount ladderAccount = authRepository.findByLadderAccountId(userId)
-                    .orElseThrow(() -> new IllegalArgumentException("아이디를 찾을 수 없습니다. ladderAccountId : " + userId));
-
-            ladderAccount.remove();
-            return ResultDto.of("success", "200", ladderAccount.getLadderAccountId());
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResultDto.of("fail", "400", "");
         }
     }
 }
