@@ -31,10 +31,10 @@ public class ArticleService {
     public ResultDto<List<ResponseArticleCategpryDto>> searchArticleCategoryList(String userId) {
         try {
             List<ResponseArticleCategpryDto> responseArticleCategpryDtos =
-            articleCategoryRepository.findByFirstSaveUserAndDelYn(userId, 1).stream()
+            articleCategoryRepository.findByFirstSaveUserAndDelYn(userId, 0).stream()
                     .map((articleCategory -> { List<ResponseArticleSubCategoryDto> responseArticleSubCategoryDtos =
                             articleCategory.getArticleSubCategories().stream()
-                                    .filter(subCategory -> subCategory.getDelYn() != 0) // JPQL로 수정 예정
+                                    .filter(subCategory -> subCategory.getDelYn() != 1) // JPQL로 수정 예정
                                     .map(ResponseArticleSubCategoryDto::new)
                                     .collect(Collectors.toList());
                         return new ResponseArticleCategpryDto(articleCategory, responseArticleSubCategoryDtos);
@@ -173,13 +173,13 @@ public class ArticleService {
             if(articleSearchParam.getCategorySeq() != null) {
                 ArticleCategory articleCategory = articleCategoryRepository.findById(articleSearchParam.getCategorySeq())
                         .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + articleSearchParam.getCategorySeq()));
-                articles = articleRepository.findByFirstSaveUserAndArticleCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleCategory, 1);
+                articles = articleRepository.findByFirstSaveUserAndArticleCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleCategory, 0);
             }else if(articleSearchParam.getSubCategorySeq() != null) {
                 ArticleSubCategory articleSubCategory = articleSubCategoryRepository.findById(articleSearchParam.getSubCategorySeq())
                         .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + articleSearchParam.getSubCategorySeq()));
-                articles = articleRepository.findByFirstSaveUserAndArticleSubCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleSubCategory, 1);
+                articles = articleRepository.findByFirstSaveUserAndArticleSubCategoryAndDelYn(articleSearchParam.getLadderAccountId(), articleSubCategory, 0);
             }else {
-                articles = articleRepository.findByFirstSaveUserAndDelYn(articleSearchParam.getLadderAccountId(), 1);
+                articles = articleRepository.findByFirstSaveUserAndDelYn(articleSearchParam.getLadderAccountId(), 0);
             }
 
 

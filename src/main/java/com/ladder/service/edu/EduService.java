@@ -30,10 +30,10 @@ public class EduService {
     public ResultDto<List<ResponseEduCategpryDto>> searchEduCategoryList(String userId) {
         try {
             List<ResponseEduCategpryDto> responseEduCategpryDtos =
-                    eduCategoryRepository.findByFirstSaveUserAndDelYn(userId, 1).stream()
+                    eduCategoryRepository.findByFirstSaveUserAndDelYn(userId, 0).stream()
                             .map((eduCategory -> { List<ResponseEduSubCategoryDto> responseEduSubCategoryDtos =
                                     eduCategory.getEduSubCategories().stream()
-                                            .filter(subCategory -> subCategory.getDelYn() != 0) // JPQL로 수정 예정
+                                            .filter(subCategory -> subCategory.getDelYn() != 1) // JPQL로 수정 예정
                                             .map(ResponseEduSubCategoryDto::new)
                                             .collect(Collectors.toList());
                                 return new ResponseEduCategpryDto(eduCategory, responseEduSubCategoryDtos);
@@ -173,13 +173,13 @@ public class EduService {
             if(eduSearchParam.getCategorySeq() != null) {
                 EduCategory eduCategory = eduCategoryRepository.findById(eduSearchParam.getCategorySeq())
                         .orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다. categorySeq : " + eduSearchParam.getCategorySeq()));
-                edus = educationalMaterialsRepository.findByFirstSaveUserAndEduCategoryAndDelYn(eduSearchParam.getLadderAccountId(), eduCategory, 1);
+                edus = educationalMaterialsRepository.findByFirstSaveUserAndEduCategoryAndDelYn(eduSearchParam.getLadderAccountId(), eduCategory, 0);
             }else if(eduSearchParam.getSubCategorySeq() != null) {
                 EduSubCategory eduSubCategory = eduSubCategoryRepository.findById(eduSearchParam.getSubCategorySeq())
                         .orElseThrow(() -> new IllegalArgumentException("하위 카테고리를 찾을 수 없습니다. subCategorySeq : " + eduSearchParam.getSubCategorySeq()));
-                edus = educationalMaterialsRepository.findByFirstSaveUserAndEduSubCategoryAndDelYn(eduSearchParam.getLadderAccountId(), eduSubCategory, 1);
+                edus = educationalMaterialsRepository.findByFirstSaveUserAndEduSubCategoryAndDelYn(eduSearchParam.getLadderAccountId(), eduSubCategory, 0);
             }else {
-                edus = educationalMaterialsRepository.findByFirstSaveUserAndDelYn(eduSearchParam.getLadderAccountId(), 1);
+                edus = educationalMaterialsRepository.findByFirstSaveUserAndDelYn(eduSearchParam.getLadderAccountId(), 0);
             }
 
 

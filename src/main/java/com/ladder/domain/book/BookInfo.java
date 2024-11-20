@@ -25,6 +25,9 @@ public class BookInfo extends CommonColumns1 {
     @Column(name = "BOOK_NAME", nullable = false)
     private String bookName;
 
+    @Column(name = "BOOK_DESCRIPTION")
+    private String bookDescription;
+
     @Column(name = "BOOK_AUTHOR_NAME")
     private String bookAuthorName;
 
@@ -42,12 +45,14 @@ public class BookInfo extends CommonColumns1 {
 
     public BookInfo(RequestBookInfoDto bookInfoDto){
         this.bookName = bookInfoDto.getBookName();
+        this.bookDescription = bookInfoDto.getBookDescription();
         this.bookAuthorName = bookInfoDto.getBookAuthorName();
         this.bookTransLatorName = bookInfoDto.getBookTranslatorName();
     }
 
     public void updateAll(RequestBookInfoDto bookInfoDto) {
         this.bookName = bookInfoDto.getBookName();
+        this.bookDescription = bookInfoDto.getBookDescription();
         this.bookAuthorName = bookInfoDto.getBookAuthorName();
         this.bookTransLatorName = bookInfoDto.getBookTranslatorName();
     }

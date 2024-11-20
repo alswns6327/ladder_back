@@ -55,8 +55,7 @@ public class BookService {
         try {
             FTPClient ftpClient = fileUtil.connectFTPClient();
             if (!ftpClient.isConnected() || !ftpClient.isAvailable()) throw new IOException("ftp 연결 실패");
-
-            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findByFirstSaveUserAndDelYn(ladderAccountId, 1).stream().map(
+            List<ResponseBookInfoDto> responseBookInfoDtos = bookInfoRepository.findByFirstSaveUserAndDelYn(ladderAccountId, 0).stream().map(
                                                                 bookInfo -> new ResponseBookInfoDto(bookInfo, fileUtil.readImgFile(ftpClient, bookInfo.getBookImgUrl()))
                                                             ).collect(Collectors.toList());
             if (ftpClient.isConnected()) {
@@ -143,7 +142,7 @@ public class BookService {
         try {
             BookInfo bookInfo = bookInfoRepository.findById(bookInfoId)
                     .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다. bookInfoId : " + bookInfoId));
-            List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfoAndDelYn(bookInfo, 1).stream()
+            List<ResponseBookChapterContentDto> responseBookChapterContentDtos = bookChapterInfoRepository.findByBookInfoAndDelYn(bookInfo, 0).stream()
                     .map(ResponseBookChapterContentDto::new).collect(Collectors.toList());
 
             return ResultDto.of("success", "200", responseBookChapterContentDtos);

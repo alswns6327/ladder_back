@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface BookChapterInfoRepository extends JpaRepository<BookChapterInfo, Long> {
     List<BookChapterInfo> findByBookInfoAndDelYn(BookInfo bookInfo, int delYn);
-    List<BookChapterInfo> findByDelYn(int delYn);
 }

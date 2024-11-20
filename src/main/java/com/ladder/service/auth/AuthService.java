@@ -42,7 +42,7 @@ public class AuthService {
 
     public ResultDto<Long> idDuplicationCheck(String userId) {
         try {
-            Long check = authRepository.countByLadderAccountIdAndDelYn(userId, 1);
+            Long check = authRepository.countByLadderAccountIdAndDelYn(userId, 0);
 
             return ResultDto.of("success", "200", check);
         }catch (Exception e){
@@ -67,7 +67,7 @@ public class AuthService {
 
     public ResultDto<ResponseLoginDto> login(RequestLoginDto requestLoginDto, HttpServletResponse response) {
         try{
-            LadderAccount ladderAccount = authRepository.findByLadderAccountIdAndDelYn(requestLoginDto.getLadderAccountId(), 1)
+            LadderAccount ladderAccount = authRepository.findByLadderAccountIdAndDelYn(requestLoginDto.getLadderAccountId(), 0)
                     .orElseThrow(() -> new IllegalArgumentException("not found : " + requestLoginDto.getLadderAccountId()));
 
             if(bCryptPasswordEncoder.matches(requestLoginDto.getLadderAccountPassword(), ladderAccount.getLadderAccountPassword())){
@@ -107,7 +107,7 @@ public class AuthService {
 
     public ResultDto<List<ResponseLadderAccountDto>> searchUsers() {
         try {
-            List<ResponseLadderAccountDto> responseLadderAccountDtos = authRepository.findByDelYn(1).stream()
+            List<ResponseLadderAccountDto> responseLadderAccountDtos = authRepository.findByDelYn(0).stream()
                     .map(ResponseLadderAccountDto::new).collect(Collectors.toList());
 
             return ResultDto.of("success", "200", responseLadderAccountDtos);

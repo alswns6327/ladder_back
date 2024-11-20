@@ -14,6 +14,7 @@ public class ResponseBookInfoDto {
 
     private Long bookInfoId;
     private String bookName;
+    private String bookDescription;
     private String bookAuthorName;
     private String bookTranslatorName;
     private String bookImgFile;
@@ -33,6 +34,7 @@ public class ResponseBookInfoDto {
 
     public ResponseBookInfoDto(BookInfo bookInfo, String bookImgFile){
         this.bookInfoId = bookInfo.getId();
+        this.bookDescription = bookInfo.getBookDescription();
         this.bookName = bookInfo.getBookName();
         this.bookAuthorName = bookInfo.getBookAuthorName();
         this.bookTranslatorName = bookInfo.getBookTransLatorName();

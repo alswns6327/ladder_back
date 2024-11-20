@@ -14,6 +14,7 @@ public class RequestBookInfoDto {
 
     private Long bookInfoId;
     private String bookName;
+    private String bookDescription;
     private String bookAuthorName;
     private String bookTranslatorName;
     private MultipartFile bookImgFile;
